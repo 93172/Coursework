@@ -19,10 +19,9 @@ public class User {
 
 
 
-
+    //Get request lists user database
     @GET
     @Path("list")
-
     public String userList() {
         System.out.println("Invoked User.userList()");
         JSONArray response = new JSONArray();
@@ -45,9 +44,11 @@ public class User {
         }
     }
 
+
+    //Post request deletes records with userID ?
+    //Currently is not being invoked, needs fixing
     @POST
     @Path("delete/{UserID}")
-
     public String deleteUser(@PathParam("UserID") Integer UserID) {
         System.out.println("Invoked deleteUser()");
         try {
