@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Start of setting up database
+        //Start of setting up database server
         openDatabase("Database.db");                     //connect to our database file, when you stop the server the connection to the database
         // is closed and you can access it through SQLite Studio
 
@@ -41,7 +41,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //End of setting up database
+        //End of setting up database server
 
     }
 
