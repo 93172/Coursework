@@ -9,13 +9,14 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-@Path("User/")
+@Path("user/")
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
 
 
 
 public class User {
+
 
 
 
@@ -45,8 +46,6 @@ public class User {
     }
 
 
-    //Post request deletes records with userID ?
-    //Currently is not being invoked, needs fixing
     @POST
     @Path("delete/{UserID}")
     public String deleteUser(@PathParam("UserID") Integer UserID) {
