@@ -70,7 +70,7 @@ function fctnMain(){
         }
     }
     arrObjectProporties = arrTempObjectProporties;
-    console.log(arrObjectProporties[1][2],arrObjectProporties[1][3]);
+
 
     fctnDrawObjects();
     setTimeout(fctnMain,5);
@@ -141,63 +141,64 @@ function fctnFindCollisionPos(indexObj1,indexObj2) {
     }
 
 
-    /*
-    //Finding collision Pos
-    if (fltXDistSpeedRatio < fltYDistSpeedRatio){
+    if (1==1) {
+        /*
+        //Finding collision Pos
+        if (fltXDistSpeedRatio < fltYDistSpeedRatio){
 
-        var fltXCollisionPos;
-        var fltYCollisionPos;
+            var fltXCollisionPos;
+            var fltYCollisionPos;
 
-        //The x collision position is the x pos of one of the sides of the shape if x boundaries collide
-        fltXCollisionPos = arrTempObjectProporties[indexObj2][2];
-        if (boolXSide == true){
-            fltXCollisionPos += arrTempObjectProporties[indexObj2][4]
+            //The x collision position is the x pos of one of the sides of the shape if x boundaries collide
+            fltXCollisionPos = arrTempObjectProporties[indexObj2][2];
+            if (boolXSide == true){
+                fltXCollisionPos += arrTempObjectProporties[indexObj2][4]
+            }
+            //fractionMoved is distance moved/velocity
+            var fractionMoved = (fltXCollisionPos - arrTempObjectProporties[indexObj1][2])/arrObjectProporties[indexObj1][8];
+            //Y collides at original position + y speed * fraction moved
+            fltYCollisionPos = arrTempObjectProporties[indexObj1][3] += arrTempObjectProporties[indexObj1][9]*fractionMoved;
+
+            //Changes objects velocity to new velocity post collision
+            arrTempObjectProporties[indexObj1][8] = fctnFindVelocityPostCollision(indexObj1,indexObj2,2)
+            //Finds objects new momentum
+            arrTempObjectProporties[indexObj1][6] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][8];
+
+            //If object 2 is dynamic finds its velocity
+            if (arrObjectProporties[indexObj2][0] == "CD" || arrObjectProporties[indexObj2][0] == "Dy"){
+                arrTempObjectProporties[indexObj2][8] = arrObjectProporties[indexObj2][11](arrObjectProporties[indexObj2][6] - arrObjectProporties[indexObj1][6]) + arrTempObjectProporties[indexObj1][8];
+                arrTempObjectProporties[indexObj2][6] = arrTempObjectProporties[indexObj2][10] * arrTempObjectProporties[indexObj2][8];
+            }
+
+        } else {
+
+            //The y collision position is the x pos of one of the sides of the shape if x boundaries collide
+            fltYCollisionPos = arrTempObjectProporties[indexObj2][3];
+            if (boolXSide == true){
+                fltYCollisionPos += arrTempObjectProporties[indexObj2][5]
+            }
+            //fractionMoved is distance moved/velocity
+            var fractionMoved = (fltYCollisionPos - arrTempObjectProporties[indexObj1][3])/arrObjectProporties[indexObj1][9];
+            //Y collides at original position + y speed * fraction moved
+            fltXCollisionPos = arrTempObjectProporties[indexObj1][2] += arrTempObjectProporties[indexObj1][8]*fractionMoved;
+
+            //Changes objects velocity to new velocity post collision
+            arrTempObjectProporties[indexObj1][9] = fctnFindVelocityPostCollision(indexObj1,indexObj2,3)
+            arrTempObjectProporties[indexObj1][7] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][9];
+
+            //Changes objects velocity to new velocity post collision
+            arrTempObjectProporties[indexObj1][9] = fctnFindVelocityPostCollision(indexObj1,indexObj2,3)
+            //Finds objects new momentum
+            arrTempObjectProporties[indexObj1][7] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][9];
+
+            //If object 2 is dynamic finds its velocity
+            if (arrObjectProporties[indexObj2][0] == "CD" || arrObjectProporties[indexObj2][0] == "Dy"){
+                arrTempObjectProporties[indexObj2][9] = arrObjectProporties[indexObj2][11]*(arrObjectProporties[indexObj2][7] - arrObjectProporties[indexObj1][7]) + arrTempObjectProporties[indexObj1][9];
+                arrTempObjectProporties[indexObj2][7] = arrTempObjectProporties[indexObj2][10] * arrTempObjectProporties[indexObj2][9];
+            }
         }
-        //fractionMoved is distance moved/velocity
-        var fractionMoved = (fltXCollisionPos - arrTempObjectProporties[indexObj1][2])/arrObjectProporties[indexObj1][8];
-        //Y collides at original position + y speed * fraction moved
-        fltYCollisionPos = arrTempObjectProporties[indexObj1][3] += arrTempObjectProporties[indexObj1][9]*fractionMoved;
-
-        //Changes objects velocity to new velocity post collision
-        arrTempObjectProporties[indexObj1][8] = fctnFindVelocityPostCollision(indexObj1,indexObj2,2)
-        //Finds objects new momentum
-        arrTempObjectProporties[indexObj1][6] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][8];
-
-        //If object 2 is dynamic finds its velocity
-        if (arrObjectProporties[indexObj2][0] == "CD" || arrObjectProporties[indexObj2][0] == "Dy"){
-            arrTempObjectProporties[indexObj2][8] = arrObjectProporties[indexObj2][11](arrObjectProporties[indexObj2][6] - arrObjectProporties[indexObj1][6]) + arrTempObjectProporties[indexObj1][8];
-            arrTempObjectProporties[indexObj2][6] = arrTempObjectProporties[indexObj2][10] * arrTempObjectProporties[indexObj2][8];
-        }
-
-    } else {
-
-        //The y collision position is the x pos of one of the sides of the shape if x boundaries collide
-        fltYCollisionPos = arrTempObjectProporties[indexObj2][3];
-        if (boolXSide == true){
-            fltYCollisionPos += arrTempObjectProporties[indexObj2][5]
-        }
-        //fractionMoved is distance moved/velocity
-        var fractionMoved = (fltYCollisionPos - arrTempObjectProporties[indexObj1][3])/arrObjectProporties[indexObj1][9];
-        //Y collides at original position + y speed * fraction moved
-        fltXCollisionPos = arrTempObjectProporties[indexObj1][2] += arrTempObjectProporties[indexObj1][8]*fractionMoved;
-
-        //Changes objects velocity to new velocity post collision
-        arrTempObjectProporties[indexObj1][9] = fctnFindVelocityPostCollision(indexObj1,indexObj2,3)
-        arrTempObjectProporties[indexObj1][7] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][9];
-
-        //Changes objects velocity to new velocity post collision
-        arrTempObjectProporties[indexObj1][9] = fctnFindVelocityPostCollision(indexObj1,indexObj2,3)
-        //Finds objects new momentum
-        arrTempObjectProporties[indexObj1][7] = arrTempObjectProporties[indexObj1][10] * arrTempObjectProporties[indexObj1][9];
-
-        //If object 2 is dynamic finds its velocity
-        if (arrObjectProporties[indexObj2][0] == "CD" || arrObjectProporties[indexObj2][0] == "Dy"){
-            arrTempObjectProporties[indexObj2][9] = arrObjectProporties[indexObj2][11]*(arrObjectProporties[indexObj2][7] - arrObjectProporties[indexObj1][7]) + arrTempObjectProporties[indexObj1][9];
-            arrTempObjectProporties[indexObj2][7] = arrTempObjectProporties[indexObj2][10] * arrTempObjectProporties[indexObj2][9];
-        }
-    }
-    */
-
+        */
+    } //code stored here
 
 
 }
