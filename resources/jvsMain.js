@@ -9,7 +9,7 @@ var ratio = cnvsWidth/2000;
 //All calculations until the objects are being drawn will assume the game takes place in a 2000 by 800 canvas, the positions will then be adjusted when being drawn
 //array to store objects in
 //Cube info [0.Type of object,1.objectID/Name,2.Xpos,3.Ypos,4.Xlength,5.Ylength,6.Horizontal momentum,7.Vertical momentum,8.Horizontal speed,9.Vertical speed,10.Mass, 11.coefficient of restitution, 12.coefficient of friction]
-var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["SO", "wall",500,300,100,50,0,0,0,0,1.0,0.5,0.5]];
+var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["CD", "wall",500,300,100,50,0,0,0,0,1.0,0.5,0.5]];
 var arrTempObjectProporties = arrObjectProporties;
 
 //Listening for key pressed
@@ -64,7 +64,7 @@ function fctnMain(){
             //If collision has occured
             if (boolCol == true){
                 //Find new positions after collision
-                console.log(boolCol);
+                fctnCollisionType(intLoopDecCol1,intLoopDecCol2);
             }
 
         }
@@ -102,32 +102,33 @@ function fctnDetectCollisons(indexObj1,indexObj2){
     }
 
 }
-//Finds position of collision
-function fctnFindCollisionPos(indexObj1,indexObj2) {
-    //[index][2] = x pos
-    //[index][3] = y pos
-    //[index][6] = x momentum
-    //[index][7] = y momentum
+//Finding out what type of collision takes place
+function fctnCollisionType(obj1,obj2){
 
-    //The side of object 2 the collision is on, if it is false object 1 is to the left of object 2 or object 1 is above object 2
-    var boolXSide = false;
-    var boolYSide = false;
-    //Finds the difference in x between object 1 and object 2
-    var xDif = arrTempObjectProporties[indexObj2][2] - arrTempObjectProporties[indexObj1][2];
-    var yDif = arrTempObjectProporties[indexObj2][3] - arrTempObjectProporties[indexObj1][3];
-    //In case object 2 is to the left or above of object 1
-    if (xDif < 0){
-        xDif += arrObjectProporties[indexObj2][4];
-        boolXSide = true;
+    if (arrObjectProporties[obj1][0] == "CD" && arrObjectProporties[obj2][0] == "CD"){
+        //This means momentum is conserved in the collision
+        fctnConservativeCollision(obj1,obj2);
+    } else if (arrObjectProporties[obj1][0] == "CD" || arrObjectProporties[obj2][0] == "CD"){
+        //This means momentum is not conserved
+
     }
-    if (yDif < 0){
-        yDif += arrObjectProporties[indexObj2][5];
-        boolYSide = true;
+}
+
+//Finds out velocities for a collision involving 2 conservative dynamic objects
+function fctnConservativeCollision(obj1,obj2) {
+    //Finding value for e used for the collision
+    var e = (arrObjectProporties[obj1][12] + arrObjectProporties[obj2][12])/2;
+
+    //Finding if time for x collision > time for y collision
+    if (fctnFindTimeForCollision(obj1,obj2,0) > fctnFindTimeForCollision(obj1,obj2,1)){
+        //X axis collides
+
+    } else {
+        //Y axis collides
     }
 
-    //Finding a ratio of distance to speed, the dimension that has the smallest ratio overlaps last, therefor is the dimension to collide
-    var fltXDistSpeedRatio = xDif/arrObjectProporties[indexObj1][8];
-    var fltYDistSpeedRatio = yDif/arrObjectProporties[indexObj1][9];
+
+
 
 
 
@@ -136,17 +137,26 @@ function fctnFindCollisionPos(indexObj1,indexObj2) {
 
 }
 
-//Finds velocity of object 1 after a collision
-function fctnFindVelocityPostCollision(indexObj1,indexObj2,speedIndex) {
-    var mass1 = arrObjectProporties[indexObj1][10];
-    var mass2 = arrObjectProporties[indexObj2][10];
-    var e = arrObjectProporties[indexObj2][11];
-    var speed1 = arrObjectProporties[indexObj1][speedIndex];
-    var speed2 = arrObjectProporties[indexObj2][speedIndex];
+//Finding difference between two objects closest sides/difference in velocity
+function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
+    var diffVelocity = arrObjectProporties[obj2][8 + offsetIndex] - arrObjectProporties[obj1][8 + offsetIndex];
 
-    var postCollisionSpeed = ((mass1*speed1 + mass2*speed2)-mass2*(e*(speed1-speed2)))/(mass1+mass2);
-    return postCollisionSpeed;
+    var obj2coord;
+    var obj1coord;
+
+    //Finding which sides will collide
+    if (diffVelocity > 0){
+        obj2coord = arrObjectProporties[obj2][2 + offsetIndex] + arrObjectProporties[obj2][4 + offsetIndex];
+        obj1coord = arrObjectProporties[obj1][2 + offsetIndex];
+    } else {
+        obj1coord = arrObjectProporties[obj1][2 + offsetIndex] + arrObjectProporties[obj1][4 + offsetIndex];
+        obj2coord = arrObjectProporties[obj2][2 + offsetIndex];
+    }
+
+    return (obj2coord - obj1coord)/diffVelocity;
 }
+
+
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index){
