@@ -94,7 +94,7 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
             return true;
         }
-        console.log(false);
+
         return  false;
 
 
@@ -118,26 +118,56 @@ function fctnCollisionType(obj1,obj2){
 function fctnConservativeCollision(obj1,obj2) {
     //Finding value for e used for the collision
     var e = (arrObjectProporties[obj1][12] + arrObjectProporties[obj2][12])/2;
+    var m1 = arrObjectProporties[obj1][10];
+    var m2 = arrObjectProporties[obj2][10];
+
 
     //Finding if time for x collision > time for y collision
     if (fctnFindTimeForCollision(obj1,obj2,0) > fctnFindTimeForCollision(obj1,obj2,1)){
         //X axis collides
+        //Finding u on x axis
+        var u1 = arrObjectProporties[obj1][8];
+        var u2 = arrObjectProporties[obj2][8];
+
+        //Finding new final velocities
+        var v1 = ((m1*u1) + (m2*u2) - (m2*e*(u1-u2)))/(m1+m2);
+        var v2 = e*(u1-u2) + v1;
+
+        //Setting new velocities
+        arrTempObjectProporties[obj1][8] = v1;
+        arrTempObjectProporties[obj2][8] = v2;
+        //Setting new momentum
+        arrTempObjectProporties[obj1][6] = v1/m1;
+        arrTempObjectProporties[obj2][6] = v2/m2;
+        //Setting new pos
+        arrTempObjectProporties[obj1][2] = arrObjectProporties[obj1][2] + v1;
+        arrTempObjectProporties[obj2][2] = arrObjectProporties[obj2][2] + v2;
 
     } else {
         //Y axis collides
+        //Finding u on x axis
+        var u1 = arrObjectProporties[obj1][9];
+        var u2 = arrObjectProporties[obj2][9];
+
+        //Finding new final velocities
+        var v1 = ((m1*u1) + (m2*u2) - (m2*e*(u1-u2)))/(m1+m2);
+        var v2 = e*(u1-u2) + v1;
+
+        //Setting new velocities
+        arrTempObjectProporties[obj1][9] = v1;
+        arrTempObjectProporties[obj2][9] = v2;
+        //Setting new momentum
+        arrTempObjectProporties[obj1][7] = v1/m1;
+        arrTempObjectProporties[obj2][7] = v2/m2;
+        //Setting new pos
+        arrTempObjectProporties[obj1][3] = arrObjectProporties[obj1][3] + v1;
+        arrTempObjectProporties[obj2][3] = arrObjectProporties[obj2][3] + v2;
     }
-
-
-
-
-
-
-
-
 
 }
 
 //Finding difference between two objects closest sides/difference in velocity
+//Offset index is if is x or y 0 for x 1 for y
 function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
     var diffVelocity = arrObjectProporties[obj2][8 + offsetIndex] - arrObjectProporties[obj1][8 + offsetIndex];
 
