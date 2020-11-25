@@ -6,14 +6,14 @@ var cnvsWidth = (0.9*document.body.clientWidth);
 var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
-var fltGravity = 0.01;
+var fltGravity = 0.0;
 var fltAirResistance = 0.995;
 
 
 //All calculations until the objects are being drawn will assume the game takes place in a 2000 by 800 canvas, the positions will then be adjusted when being drawn
 //array to store objects in
 //Cube info [0.Type of object,1.objectID/Name,2.Xpos,3.Ypos,4.Xlength,5.Ylength,6.Horizontal momentum,7.Vertical momentum,8.Horizontal speed,9.Vertical speed,10.Mass, 11.coefficient of restitution, 12.coefficient of friction]
-var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["SO", "wall",0,700,2000,50,0,0,0,0,1.0,0.5,0.5]];
+var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["CD", "wall",200,700,2000,50,0,0,0,0,1.0,0.5,0.5]];
 var arrTempObjectProporties = arrObjectProporties;
 
 //Listening for key pressed
@@ -65,13 +65,15 @@ function fctnMain(){
 
     //Finding new positions if a collision takes place
     for (var intLoopDecCol1 = 0; intLoopDecCol1 < arrTempObjectProporties.length; intLoopDecCol1 ++){
+
         for (var intLoopDecCol2 = (intLoopDecCol1 +1); intLoopDecCol2 < arrTempObjectProporties.length; intLoopDecCol2++){
             //Checks to see if collision has occured between 2 objects
             var boolCol = fctnDetectCollisons(intLoopDecCol1,intLoopDecCol2);
             //If collision has occured
             if (boolCol == true){
                 //Find new positions after collision
-                fctnCollisionType(intLoopDecCol1,intLoopDecCol2);
+
+                //fctnCollisionType(intLoopDecCol1,intLoopDecCol2);
             }
 
         }
@@ -98,6 +100,7 @@ function fctnDetectCollisons(indexObj1,indexObj2){
         var y2 = arrTempObjectProporties[indexObj2][3];
 
         if ( ( ( (x1 + xDim1) > x2) && ( (x2 > x1) ||  (x2 + xDim2) > x1 ) ) && ( ( (y1 + yDim1) > y2) && ( (y2 > y1) || (y2 + yDim2) > y1 ) ) ){
+            console.log(arrObjectProporties[indexObj1][2] + xDim1,x2);
             return true;
         }
 
@@ -117,7 +120,6 @@ function fctnCollisionType(obj1,obj2){
         fctnConservativeCollision(obj1,obj2);
     } else if (arrObjectProporties[obj1][0] == "CD" && arrObjectProporties[obj2][0] == "SO") {
         //Conservative collision with static object, making sure conservative object is object 1
-        console.log("true");
         fctnConservativeStaticCollision(obj1, obj2);
     } else if (arrObjectProporties[obj2][0] == "CD" && arrObjectProporties[obj1][0] == "SO") {
         //Conservative collision with static object
@@ -126,6 +128,8 @@ function fctnCollisionType(obj1,obj2){
 
 }
 
+
+/*
 function fctnConservativeStaticCollision(obj1,obj2){
     //In this function the value of e used will be that of object 2
     var e = arrObjectProporties[obj2][12];
@@ -164,6 +168,11 @@ function fctnConservativeStaticCollision(obj1,obj2){
     }
 
 }
+*/
+
+
+
+
 
 //Finds out velocities for a collision involving 2 conservative dynamic objects
 function fctnConservativeCollision(obj1,obj2) {
@@ -172,11 +181,17 @@ function fctnConservativeCollision(obj1,obj2) {
     var m1 = arrObjectProporties[obj1][10];
     var m2 = arrObjectProporties[obj2][10];
 
+    //Getting values used to determine which side collides
+    var xDim1 = arrObjectProporties[obj1][5];
+    var xDim2 = arrObjectProporties[obj2][5];
+    var x1 = arrObjectProporties[obj1][3];
+    var x2 = arrObjectProporties[obj2][3];
+    console.log(x1 + xDim1,x2,x2 + xDim2,x1)
+
 
     arrTempObjectProporties[obj1][8] = v1;
-
-    //Finding if time for x collision > time for y collision
-    if (fctnFindTimeForCollision(obj1,obj2,0) > fctnFindTimeForCollision(obj1,obj2,1)){
+    //Finding axis collision happens on
+   if(( (x1 + xDim1) > x2) && ( (x2 > x1) ||  (x2 + xDim2) > x1 ) ){
         //X axis collides
         //Finding u on x axis
         var u1 = arrObjectProporties[obj1][8];
@@ -197,6 +212,7 @@ function fctnConservativeCollision(obj1,obj2) {
         arrTempObjectProporties[obj2][2] = arrObjectProporties[obj2][2] + v2;
 
     } else {
+       console.log("y");
         //Y axis collides
         //Finding u on x axis
         var u1 = arrObjectProporties[obj1][9];
@@ -213,12 +229,12 @@ function fctnConservativeCollision(obj1,obj2) {
         arrTempObjectProporties[obj1][7] = v1/m1;
         arrTempObjectProporties[obj2][7] = v2/m2;
         //Setting new pos
-        arrTempObjectProporties[obj1][3] = arrObjectProporties[obj1][3] + v1;
+        arrTempObjectProporties[obj1][3] = arrObjectProporties[obj1][3];
         arrTempObjectProporties[obj2][3] = arrObjectProporties[obj2][3] + v2;
     }
 
 }
-
+/*
 //Finding difference between two objects closest sides/difference in velocity
 //Offset index is if is x or y 0 for x 1 for y
 function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
@@ -238,13 +254,14 @@ function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
 
     return (obj2coord - obj1coord)/diffVelocity;
 }
-
+*/
 
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index){
 
-    //Implementing gravity
+
+    //Implementing gravity and air resistance
     if (arrTempObjectProporties[index][0] == "CD") {
         arrTempObjectProporties[index][7] += fltGravity;
         //Air resistance
@@ -259,6 +276,7 @@ function fctnFindNewPos(index){
     //Calculating new positions
     arrTempObjectProporties[index][2] += arrTempObjectProporties[index][8];
     arrTempObjectProporties[index][3] += arrTempObjectProporties[index][9];
+
 
 
 }
