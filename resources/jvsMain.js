@@ -7,6 +7,8 @@ var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
 var fltGravity = 0.01;
+var fltAirResistance = 0.995;
+
 
 //All calculations until the objects are being drawn will assume the game takes place in a 2000 by 800 canvas, the positions will then be adjusted when being drawn
 //array to store objects in
@@ -245,6 +247,9 @@ function fctnFindNewPos(index){
     //Implementing gravity
     if (arrTempObjectProporties[index][0] == "CD") {
         arrTempObjectProporties[index][7] += fltGravity;
+        //Air resistance
+        arrTempObjectProporties[index][6] = arrTempObjectProporties[index][6] * fltAirResistance;
+        arrTempObjectProporties[index][7] = arrTempObjectProporties[index][7] * fltAirResistance;
     }
 
 
