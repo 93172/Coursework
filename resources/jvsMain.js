@@ -14,7 +14,9 @@ var fltAirResistance = 0.995;
 //array to store objects in
 //Cube info [0.Type of object,1.objectID/Name,2.Xpos,3.Ypos,4.Xlength,5.Ylength,6.Horizontal momentum,7.Vertical momentum,8.Horizontal speed,9.Vertical speed,10.Mass, 11.coefficient of restitution, 12.coefficient of friction]
 var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["CD", "wall",200,700,2000,50,0,0,0,0,1.0,0.5,0.5]];
-var arrTempObjectProporties = arrObjectProporties;
+var arrTempObjectProporties;
+
+
 
 //Listening for key pressed
 window.addEventListener("keydown",function(event){
@@ -23,15 +25,15 @@ window.addEventListener("keydown",function(event){
 
     //Adds momentum to player object
     if (event.key === "d"){
-        arrObjectProporties[0][6] += fltMomentumStep;
+        arrTempObjectProporties[0][6] += fltMomentumStep;
     } else if (event.key === "a"){
-        arrObjectProporties[0][6] -= fltMomentumStep;
+        arrTempObjectProporties[0][6] -= fltMomentumStep;
     }
 
     if (event.key === "s"){
-        arrObjectProporties[0][7] += fltMomentumStep;
+        arrTempObjectProporties[0][7] += fltMomentumStep;
     } else if (event.key === "w"){
-        arrObjectProporties[0][7] -= fltMomentumStep;
+        arrTempObjectProporties[0][7] -= fltMomentumStep;
     }
 
 
@@ -42,9 +44,23 @@ window.addEventListener("resize",fctnChangeSize);
 
 //Initialises game, resizes canvas to previously calculated values
 function fctnInitialiseGame() {
+    arrTempObjectProporties = arrObjectProporties;
     fctnChangeSize();
     fctnMain();
 }
+
+function fctnDrawObjects(){
+
+    cnvsContext.clearRect(0,0,2000*ratio,800*ratio);
+    for (var intLoop = 0; intLoop < arrObjectProporties.length; intLoop++){
+        cnvsContext.beginPath();
+        cnvsContext.moveTo((arrObjectProporties[intLoop][0])*ratio,(arrObjectProporties[intLoop][3])*ratio);
+        cnvsContext.rect((arrObjectProporties[intLoop][2])*ratio, (arrObjectProporties[intLoop][3])*ratio, (arrObjectProporties[intLoop][4])*ratio, (arrObjectProporties[intLoop][5])*ratio);
+        cnvsContext.stroke();
+
+    }
+}
+
 //Changes canvas size
 function fctnChangeSize() {
     cnvsWidth = (0.9*document.body.clientWidth);
@@ -58,33 +74,59 @@ function fctnChangeSize() {
 function fctnMain(){
     //Finding new position in temp array
     arrTempObjectProporties = arrObjectProporties;
+
+
+
     for (var intLoopPos = 0; intLoopPos < arrObjectProporties.length; intLoopPos ++){
         fctnFindNewPos(intLoopPos);
     }
+
 
 
     //Finding new positions if a collision takes place
     for (var intLoopDecCol1 = 0; intLoopDecCol1 < arrTempObjectProporties.length; intLoopDecCol1 ++){
 
         for (var intLoopDecCol2 = (intLoopDecCol1 +1); intLoopDecCol2 < arrTempObjectProporties.length; intLoopDecCol2++){
-            //Checks to see if collision has occured between 2 objects
-            var boolCol = fctnDetectCollisons(intLoopDecCol1,intLoopDecCol2);
-            //If collision has occured
-            if (boolCol == true){
-                //Find new positions after collision
-
-                //fctnCollisionType(intLoopDecCol1,intLoopDecCol2);
-            }
-
+            //Checks to see if collision has occured between 2 objects and finds new position
+            fctnDetectCollisons(intLoopDecCol1,intLoopDecCol2);
         }
     }
-    arrObjectProporties = arrTempObjectProporties;
+
 
 
     fctnDrawObjects();
+
     setTimeout(fctnMain,5);
 
 }
+
+
+//Uses temporary array to calculate new position of object, assuming no new collisions take place
+function fctnFindNewPos(index){
+
+
+    //Implementing gravity and air resistance
+    if (arrTempObjectProporties[index][0] == "CD") {
+        arrTempObjectProporties[index][7] += fltGravity;
+        //Air resistance
+        arrTempObjectProporties[index][6] = arrTempObjectProporties[index][6] * fltAirResistance;
+        arrTempObjectProporties[index][7] = arrTempObjectProporties[index][7] * fltAirResistance;
+    }
+
+    //Calculating velocity of object
+    arrTempObjectProporties[index][8] = arrTempObjectProporties[index][6]/arrTempObjectProporties[index][10];
+    arrTempObjectProporties[index][9] = arrTempObjectProporties[index][7]/arrTempObjectProporties[index][11];
+
+    console.log("pre change",arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4],arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4]);
+    //arrObjectProporties changing here no idea why
+    //Calculating new positions
+    arrTempObjectProporties[index][2] = arrTempObjectProporties[index][2] + arrTempObjectProporties[index][8];
+    arrTempObjectProporties[index][3] = arrTempObjectProporties[index][3] + arrTempObjectProporties[index][9];
+    console.log("post change",arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4],arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4]);
+
+
+}
+
 
 //Detects if any collisions have taken place
 function fctnDetectCollisons(indexObj1,indexObj2){
@@ -100,21 +142,33 @@ function fctnDetectCollisons(indexObj1,indexObj2){
         var y2 = arrTempObjectProporties[indexObj2][3];
 
         if ( ( ( (x1 + xDim1) > x2) && ( (x2 > x1) ||  (x2 + xDim2) > x1 ) ) && ( ( (y1 + yDim1) > y2) && ( (y2 > y1) || (y2 + yDim2) > y1 ) ) ){
-            console.log(arrObjectProporties[indexObj1][2] + xDim1,x2);
-            return true;
+
+            console.log("collision detected1",x1,x1+xDim1,x2,xDim2)
+            fctnCollision(indexObj1,indexObj2);
+
         }
 
-        return  false;
-
-
-
     }
-
 }
-//Finding out what type of collision takes place
-function fctnCollisionType(obj1,obj2){
 
 
+
+
+//Finding out what type of collision takes place and starting relevent function
+function fctnCollision(obj1,obj2){
+    //Finding which side collides
+
+    var xDim1 = arrTempObjectProporties[obj1][4];
+    var yDim1 = arrTempObjectProporties[obj1][5];
+    var xDim2 = arrTempObjectProporties[obj2][4];
+    var yDim2 = arrTempObjectProporties[obj2][5];
+    var x1 = arrTempObjectProporties[obj1][2];
+    var x2 = arrTempObjectProporties[obj2][2];
+    var y1 = arrTempObjectProporties[obj1][3];
+    var y2 = arrTempObjectProporties[obj2][3];
+    console.log("collision detected",x1,x1+xDim1,x2,xDim2);
+    console.log(arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4],arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4]);
+    /*
     if (arrObjectProporties[obj1][0] == "CD" && arrObjectProporties[obj2][0] == "CD"){
         //This means momentum is conserved in the collision
         fctnConservativeCollision(obj1,obj2);
@@ -125,6 +179,8 @@ function fctnCollisionType(obj1,obj2){
         //Conservative collision with static object
         fctnConservativeStaticCollision(obj2, obj1);
     }
+
+     */
 
 }
 
@@ -181,12 +237,6 @@ function fctnConservativeCollision(obj1,obj2) {
     var m1 = arrObjectProporties[obj1][10];
     var m2 = arrObjectProporties[obj2][10];
 
-    //Getting values used to determine which side collides
-    var xDim1 = arrObjectProporties[obj1][5];
-    var xDim2 = arrObjectProporties[obj2][5];
-    var x1 = arrObjectProporties[obj1][3];
-    var x2 = arrObjectProporties[obj2][3];
-    console.log(x1 + xDim1,x2,x2 + xDim2,x1)
 
 
     arrTempObjectProporties[obj1][8] = v1;
@@ -212,7 +262,6 @@ function fctnConservativeCollision(obj1,obj2) {
         arrTempObjectProporties[obj2][2] = arrObjectProporties[obj2][2] + v2;
 
     } else {
-       console.log("y");
         //Y axis collides
         //Finding u on x axis
         var u1 = arrObjectProporties[obj1][9];
@@ -257,41 +306,9 @@ function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
 */
 
 
-//Uses temporary array to calculate new position of object, assuming no new collisions take place
-function fctnFindNewPos(index){
-
-
-    //Implementing gravity and air resistance
-    if (arrTempObjectProporties[index][0] == "CD") {
-        arrTempObjectProporties[index][7] += fltGravity;
-        //Air resistance
-        arrTempObjectProporties[index][6] = arrTempObjectProporties[index][6] * fltAirResistance;
-        arrTempObjectProporties[index][7] = arrTempObjectProporties[index][7] * fltAirResistance;
-    }
-
-
-    //Calculating velocity of object
-    arrTempObjectProporties[index][8] = arrTempObjectProporties[index][6]/arrTempObjectProporties[index][10];
-    arrTempObjectProporties[index][9] = arrTempObjectProporties[index][7]/arrTempObjectProporties[index][11];
-    //Calculating new positions
-    arrTempObjectProporties[index][2] += arrTempObjectProporties[index][8];
-    arrTempObjectProporties[index][3] += arrTempObjectProporties[index][9];
 
 
 
-}
-
-function fctnDrawObjects(){
-
-    cnvsContext.clearRect(0,0,2000*ratio,800*ratio);
-    for (var intLoop = 0; intLoop < arrObjectProporties.length; intLoop++){
-        cnvsContext.beginPath();
-        cnvsContext.moveTo((arrObjectProporties[intLoop][0])*ratio,(arrObjectProporties[intLoop][3])*ratio);
-        cnvsContext.rect((arrObjectProporties[intLoop][2])*ratio, (arrObjectProporties[intLoop][3])*ratio, (arrObjectProporties[intLoop][4])*ratio, (arrObjectProporties[intLoop][5])*ratio);
-        cnvsContext.stroke();
-
-    }
-}
 
 
 fctnInitialiseGame();
