@@ -5,6 +5,8 @@ var cnvsContext = cnvs.getContext("2d");
 var cnvsWidth = (0.9*document.body.clientWidth);
 var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
+//Constants
+var fltGravity = 0.01;
 
 //All calculations until the objects are being drawn will assume the game takes place in a 2000 by 800 canvas, the positions will then be adjusted when being drawn
 //array to store objects in
@@ -16,6 +18,7 @@ var arrTempObjectProporties = arrObjectProporties;
 window.addEventListener("keydown",function(event){
     //How much momentum added per tick
     var fltMomentumStep = 1;
+
     //Adds momentum to player object
     if (event.key === "d"){
         arrObjectProporties[0][6] += fltMomentumStep;
@@ -28,6 +31,8 @@ window.addEventListener("keydown",function(event){
     } else if (event.key === "w"){
         arrObjectProporties[0][7] -= fltMomentumStep;
     }
+
+
 
 },false);
 //Changes canvas size whenever the screen size is changed
@@ -190,6 +195,13 @@ function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index){
+
+    //Implementing gravity
+    if (arrTempObjectProporties[index][0] == "CD") {
+        arrTempObjectProporties[index][7] += fltGravity;
+    }
+
+
     //Calculating velocity of object
     arrTempObjectProporties[index][8] = arrTempObjectProporties[index][6]/arrTempObjectProporties[index][10];
     arrTempObjectProporties[index][9] = arrTempObjectProporties[index][7]/arrTempObjectProporties[index][11];
