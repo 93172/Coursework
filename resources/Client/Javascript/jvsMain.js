@@ -18,6 +18,7 @@ var arrTempObjectProporties;
 
 
 
+
 //Listening for key pressed
 window.addEventListener("keydown",function(event){
     //How much momentum added per tick
@@ -123,6 +124,7 @@ function fctnFindNewPos(index){
     arrTempObjectProporties[index][2] = arrTempObjectProporties[index][2] + arrTempObjectProporties[index][8];
     arrTempObjectProporties[index][3] = arrTempObjectProporties[index][3] + arrTempObjectProporties[index][9];
     console.log("post change",arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4],arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4]);
+
 
 
 }
