@@ -1,7 +1,7 @@
 //Setting up canvas variables
 var cnvs = document.getElementById("cnvsCanvasMain");
 var cnvsContext = cnvs.getContext("2d");
-//Finding camvas width and using it to calculate height
+//Finding canvas width and using it to calculate height
 var cnvsWidth = (0.9*document.body.clientWidth);
 var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
@@ -9,12 +9,9 @@ var ratio = cnvsWidth/2000;
 var fltGravity = 0.0;
 var fltAirResistance = 0.995;
 
+const obj = new ConservativeDynamicObject("1",3,5,7,7,8,9,7,7,7);
+console.log(obj.getX());
 
-//All calculations until the objects are being drawn will assume the game takes place in a 2000 by 800 canvas, the positions will then be adjusted when being drawn
-//array to store objects in
-//Cube info [0.Type of object,1.objectID/Name,2.Xpos,3.Ypos,4.Xlength,5.Ylength,6.Horizontal momentum,7.Vertical momentum,8.Horizontal speed,9.Vertical speed,10.Mass, 11.coefficient of restitution, 12.coefficient of friction]
-var arrObjectProporties = [["CD", "player",50.0,50.0,100.0,100.0,0.0,0.0,0.0,0.0,1.0,0.5,0.5],["CD", "wall",200,700,2000,50,0,0,0,0,1.0,0.5,0.5]];
-var arrTempObjectProporties;
 
 
 
@@ -36,8 +33,6 @@ window.addEventListener("keydown",function(event){
     } else if (event.key === "w"){
         arrTempObjectProporties[0][7] -= fltMomentumStep;
     }
-
-
 
 },false);
 //Changes canvas size whenever the screen size is changed
@@ -76,8 +71,6 @@ function fctnMain(){
     //Finding new position in temp array
     arrTempObjectProporties = arrObjectProporties;
 
-
-
     for (var intLoopPos = 0; intLoopPos < arrObjectProporties.length; intLoopPos ++){
         fctnFindNewPos(intLoopPos);
     }
@@ -93,8 +86,6 @@ function fctnMain(){
         }
     }
 
-
-
     fctnDrawObjects();
 
     setTimeout(fctnMain,5);
@@ -104,7 +95,6 @@ function fctnMain(){
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index){
-
 
     //Implementing gravity and air resistance
     if (arrTempObjectProporties[index][0] == "CD") {
@@ -125,8 +115,6 @@ function fctnFindNewPos(index){
     arrTempObjectProporties[index][3] = arrTempObjectProporties[index][3] + arrTempObjectProporties[index][9];
     console.log("post change",arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4],arrObjectProporties[0][2],arrObjectProporties[0][2] + arrObjectProporties[0][4]);
 
-
-
 }
 
 
@@ -145,16 +133,12 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
         if ( ( ( (x1 + xDim1) > x2) && ( (x2 > x1) ||  (x2 + xDim2) > x1 ) ) && ( ( (y1 + yDim1) > y2) && ( (y2 > y1) || (y2 + yDim2) > y1 ) ) ){
 
-            console.log("collision detected1",x1,x1+xDim1,x2,xDim2)
+            console.log("collision detected1",x1,x1+xDim1,x2,xDim2);
             fctnCollision(indexObj1,indexObj2);
 
         }
-
     }
 }
-
-
-
 
 //Finding out what type of collision takes place and starting relevent function
 function fctnCollision(obj1,obj2){
@@ -185,7 +169,6 @@ function fctnCollision(obj1,obj2){
      */
 
 }
-
 
 /*
 function fctnConservativeStaticCollision(obj1,obj2){
@@ -230,16 +213,12 @@ function fctnConservativeStaticCollision(obj1,obj2){
 
 
 
-
-
 //Finds out velocities for a collision involving 2 conservative dynamic objects
 function fctnConservativeCollision(obj1,obj2) {
     //Finding values that will be constants in the function
     var e = (arrObjectProporties[obj1][12] + arrObjectProporties[obj2][12])/2;
     var m1 = arrObjectProporties[obj1][10];
     var m2 = arrObjectProporties[obj2][10];
-
-
 
     arrTempObjectProporties[obj1][8] = v1;
     //Finding axis collision happens on
@@ -313,4 +292,3 @@ function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
 
 
 
-fctnInitialiseGame();
