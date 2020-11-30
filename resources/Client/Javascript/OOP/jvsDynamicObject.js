@@ -19,8 +19,16 @@ class DynamicObject extends DynamicPointObject {
         return(this.yDimention);
     }
 
+    getYDimention(){
+        return(this.yDimention);
+    }
+
     getE(){
         return(this.e);
+    }
+
+    getObjectType() {
+        return("DynamicObject");
     }
 
     //Setters

@@ -5,6 +5,8 @@ class DynamicPointObject extends PointObject{
         super(name,x,y);
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
+        this.tempXVelocity = xVelocity;
+        this.tempYVelocity = yVelocity;
     }
 
 
@@ -18,6 +20,18 @@ class DynamicPointObject extends PointObject{
         return(this.yVelocity);
     }
 
+    getTempXVelocity(){
+        return(this.tempXVelocity);
+    }
+
+    getTempYVelocity(){
+        return(this.tempYVelocity);
+    }
+
+    getObjectType() {
+        return("DynamicPointObject");
+    }
+
     //Setters
     setXVelocity(xVelocity){
         this.xVelocity = xVelocity;
@@ -25,5 +39,13 @@ class DynamicPointObject extends PointObject{
 
     setYVelocity(yVelocity){
         this.yVelocity = yVelocity;
+    }
+
+    setTempXVelocity(xVelocity){
+        this.tempXVelocity = xVelocity;
+    }
+
+    setTempYVelocity(yVelocity){
+        this.tempYVelocity = yVelocity;
     }
 }

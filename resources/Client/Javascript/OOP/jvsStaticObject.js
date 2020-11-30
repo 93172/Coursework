@@ -24,6 +24,10 @@ class StaticObject extends PointObject{
         return(this.e);
     }
 
+    getObjectType() {
+        return("StaticObject");
+    }
+
     //Setters
     setXDimention(xDimention){
         this.xDimention = xDimention;

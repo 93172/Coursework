@@ -5,6 +5,8 @@ class PointObject{
         this.name = name;
         this.x = x;
         this.y = y;
+        this.tempX = x;
+        this.tempY = y;
     }
 
 
@@ -18,6 +20,18 @@ class PointObject{
         return(this.y);
     }
 
+    getTempX() {
+        return(this.tempX);
+    }
+
+    getTempY() {
+        return(this.tempY);
+    }
+
+    getObjectType() {
+        return("PointObject");
+    }
+
 
 
     //Setters
@@ -27,5 +41,13 @@ class PointObject{
 
     setY(y) {
         this.y = y;
+    }
+
+    setTempX(x){
+        this.tempX = x;
+    }
+
+    setTempY(y){
+        this.tempY = y;
     }
 }
