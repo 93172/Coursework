@@ -74,7 +74,7 @@ function fctnConservativeCollision(obj1,obj2) {
     var m2 = arrObjectArray[obj2].getMass();
 
     //Finding axis collision happens on
-    if(( (arrObjectArray[obj1].getTempX() + arrObjectArray[obj1].getXDimention()) > arrObjectArray[obj2].getTempX()) && ( (arrObjectArray[obj2].getTempX() > arrObjectArray[obj1].getTempX()) ||  (arrObjectArray[obj2].getTempX() + arrObjectArray[obj2].getXDimention()) > arrObjectArray[obj1].getTempX() ) ){
+    if(){
         //X axis collides
         //Finding u on x axis
         var u1 = arrObjectArray[obj1].getTempXVelocity();
@@ -116,24 +116,9 @@ function fctnConservativeCollision(obj1,obj2) {
     }
 
 }
-/*
-//Finding difference between two objects closest sides/difference in velocity
-//Offset index is if is x or y 0 for x 1 for y
-function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
-    var diffVelocity = arrObjectProporties[obj2][8 + offsetIndex] - arrObjectProporties[obj1][8 + offsetIndex];
 
-    var obj2coord;
-    var obj1coord;
+//Finding which axis the collision happens on
+function fctnFindCollisionAxis(obj1,obj2) {
 
-    //Finding which sides will collide
-    if (diffVelocity > 0){
-        obj2coord = arrObjectProporties[obj2][2 + offsetIndex] + arrObjectProporties[obj2][4 + offsetIndex];
-        obj1coord = arrObjectProporties[obj1][2 + offsetIndex];
-    } else {
-        obj1coord = arrObjectProporties[obj1][2 + offsetIndex] + arrObjectProporties[obj1][4 + offsetIndex];
-        obj2coord = arrObjectProporties[obj2][2 + offsetIndex];
-    }
-
-    return (obj2coord - obj1coord)/diffVelocity;
+    if()
 }
-*/
