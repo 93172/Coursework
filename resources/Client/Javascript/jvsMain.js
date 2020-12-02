@@ -7,7 +7,7 @@ var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
 var fltGravity = 0.00;
-var fltAirResistance = 0.995;
+var fltAirResistance = 1;
 
 //Object Array
 arrObjectArray = [playerObject,wall1];
@@ -55,6 +55,15 @@ function fctnChangeSize() {
 //The main game
 function fctnMain(){
 
+    //Momentum is only added to player if player has pressed wasd, and is only added once per frame
+    if (movementObj.getBoolMoved() == true) {
+        fctnMovePlayerObject();
+    }
+    //Setting movementObj to values that assume no key has been pressed
+    movementObj.setBoolMoved(false);
+    movementObj.setStrKey(null);
+
+
     for (var intLoopPos = 0; intLoopPos < arrObjectArray.length; intLoopPos ++){
         fctnFindNewPos(intLoopPos);
     }
@@ -69,10 +78,7 @@ function fctnMain(){
     }
 
 
-    //Momentum is only added to player if player has pressed wasd, and is only added once per frame
-    if (movementObj.getBoolMoved() == true) {
-        fctnMovePlayerObject();
-    }
+
 
     //Setting initial values to temp values
     for (var i = 0; i < arrObjectArray.length; i++){
@@ -86,9 +92,7 @@ function fctnMain(){
     fctnDrawObjects();
     setTimeout(fctnMain,5);
 
-    //Setting movementObj to values that assume no key has been pressed
-    movementObj.setBoolMoved(false);
-    movementObj.setStrKey(null);
+
 
 }
 
