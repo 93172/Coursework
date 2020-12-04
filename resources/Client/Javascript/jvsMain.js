@@ -74,6 +74,7 @@ function fctnMain(){
         for (var intLoopDecCol2 = (intLoopDecCol1 +1); intLoopDecCol2 < arrObjectArray.length; intLoopDecCol2++){
             //Checks to see if collision has occured between 2 objects and finds new position
             fctnDetectCollisons(intLoopDecCol1,intLoopDecCol2);
+
         }
     }
 

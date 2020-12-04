@@ -13,25 +13,28 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
 
 function fctnCollision(indexObj1,indexObj2){
-    let axis;
-    let u1;
-    let u2;
+    var axis;
+    var u1;
+    var u2;
     //Collision happens on Y axis
-    if (true){
-        axis = "y";
-        u1 = arrObjectArray[indexObj1].getTempYVelocity();
-        u2 = arrObjectArray[indexObj2].getTempYVelocity();
-    } else {
+    if (( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getY()) > arrObjectArray[indexObj2].getY()) && ( (arrObjectArray[indexObj2].getY() > arrObjectArray[indexObj1].getY()) || (arrObjectArray[indexObj2].getY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getY() ) ) )){
         axis = "x";
         u1 = arrObjectArray[indexObj1].getTempXVelocity();
         u2 = arrObjectArray[indexObj2].getTempXVelocity();
+    } else {
+        axis = "y";
+        u1 = arrObjectArray[indexObj1].getTempYVelocity();
+        u2 = arrObjectArray[indexObj2].getTempYVelocity();
+        console.log(u1,u2);
+        console.log(arrObjectArray[indexObj1].getTempYVelocity());
+
     }
+
 
 
 
     if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject"){
         //This means momentum is conserved in the collision
-        console.log(u1,u2);
         fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis);
     }
     //Conservative collision with static object, making sure conservative object is object 1
@@ -84,37 +87,38 @@ function fctnConservativeStaticCollision(obj1,obj2){
 
 
 //Finds out velocities for a collision involving 2 conservative dynamic objects
-function fctnConservativeCollision(obj1,obj2,u1,u2,axis) {
+function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
     //Finding values that will be constants in the function
-    var e = (arrObjectArray[obj1].getE() + arrObjectArray[obj2].getE())/2;
-    var m1 = arrObjectArray[obj1].getMass();
-    var m2 = arrObjectArray[obj2].getMass();
+    var e = (arrObjectArray[indexObj1].getE() + arrObjectArray[indexObj1].getE())/2;
+    var m1 = arrObjectArray[indexObj1].getMass();
+    var m2 = arrObjectArray[indexObj2].getMass();
 
 
     //Finding new final velocities
     var v1 = ((m1*u1) + (m2*u2) - (m2*e*(u1-u2)))/(m1+m2);
     var v2 = e*(u1-u2) + v1;
 
-    if (axis == "x") {
+    if (axis == "x"){
+
         //Setting new velocities
-        arrObjectArray[obj1].setTempXVelocity(v1);
-        arrObjectArray[obj2].setTempXVelocity(v2);
+        arrObjectArray[indexObj1].setTempXVelocity(v1);
+        arrObjectArray[indexObj2].setTempXVelocity(v2);
         //Setting new momentum
-        arrObjectArray[obj1].setTempXMomentum(v1 / m1);
-        arrObjectArray[obj2].setTempXMomentum(v2 / m2);
+        arrObjectArray[indexObj1].setTempXMomentum(v1 / m1);
+        arrObjectArray[indexObj2].setTempXMomentum(v2 / m2);
         //Setting new pos
-        arrObjectArray[obj1].setTempX(arrObjectArray[obj1].getTempX() + v1);
-        arrObjectArray[obj2].setTempX(arrObjectArray[obj2].getTempX() + v2);
+        arrObjectArray[indexObj1].setTempX(arrObjectArray[indexObj1].getTempX() + v1);
+        arrObjectArray[indexObj2].setTempX(arrObjectArray[indexObj2].getTempX() + v2);
     } else {
         //Setting new velocities
-        arrObjectArray[obj1].setTempYVelocity(v1);
-        arrObjectArray[obj2].setTempYVelocity(v2);
+        arrObjectArray[indexObj1].setTempYVelocity(v1);
+        arrObjectArray[indexObj2].setTempYVelocity(v2);
         //Setting new momentum
-        arrObjectArray[obj1].setTempYMomentum(v1 / m1);
-        arrObjectArray[obj2].setTempYMomentum(v2 / m2);
+        arrObjectArray[indexObj1].setTempYMomentum(v1 / m1);
+        arrObjectArray[indexObj2].setTempYMomentum(v2 / m2);
         //Setting new pos
-        arrObjectArray[obj1].setTempY(arrObjectArray[obj1].getTempX() + v1);
-        arrObjectArray[obj2].setTempY(arrObjectArray[obj2].getTempX() + v2);
+        arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getTempY() + v1);
+        arrObjectArray[indexObj2].setTempY(arrObjectArray[indexObj2].getTempY() + v2);
     }
 
 }
