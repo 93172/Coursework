@@ -2,6 +2,7 @@
 class Movement{
     //Constructor
     constructor() {
+        this.boolCollided = false;
         this.boolMoved = false;
         this.strKey = "";
     }
@@ -17,6 +18,10 @@ class Movement{
         return(this.strKey);
     }
 
+    getBoolCollided(){
+        return(this.boolCollided);
+    }
+
     //Setters
     setBoolMoved(boolMoved){
         this.boolMoved = boolMoved;
@@ -24,6 +29,10 @@ class Movement{
 
     setStrKey(strKey){
         this.strKey = strKey;
+    }
+
+    setBoolCollided(boolCollided){
+        this.boolCollided = boolCollided;
     }
 }
 
@@ -40,11 +49,14 @@ function fctnMovePlayerObject(){
     }
 
     if (movementObj.getStrKey() === "s"){
-        playerObject.setTempYMomentum(playerObject.getTempYMomentum() + fltMomentumStep);
+        //playerObject.setTempYMomentum(playerObject.getTempYMomentum() + fltMomentumStep);
     } else if (movementObj.getStrKey() === "w"){
-        playerObject.setTempYMomentum(playerObject.getTempYMomentum() - fltMomentumStep);
+        if (movementObj.getBoolCollided() == true){
+            playerObject.setTempYMomentum(-5);
+        }
     }
 }
+
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index) {
@@ -57,13 +69,29 @@ function fctnFindNewPos(index) {
         arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() * fltAirResistance);
     }
 
-    //Calculating velocity of object
-    arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getTempXMomentum() / arrObjectArray[index].getMass());
-    arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getTempYMomentum() / arrObjectArray[index].getMass());
+    if (fctnHasVelocity(index) == true) {
+        //Calculating velocity of object
+        arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getTempXMomentum() / arrObjectArray[index].getMass());
+        arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getTempYMomentum() / arrObjectArray[index].getMass());
 
-    //Finding new position of the object
-    arrObjectArray[index].setTempX(arrObjectArray[index].getTempX() + arrObjectArray[index].getTempXVelocity());
-    arrObjectArray[index].setTempY(arrObjectArray[index].getTempY() + arrObjectArray[index].getTempYVelocity());
+        //Finding new position of the object
+        arrObjectArray[index].setTempX(arrObjectArray[index].getTempX() + arrObjectArray[index].getTempXVelocity());
+        arrObjectArray[index].setTempY(arrObjectArray[index].getTempY() + arrObjectArray[index].getTempYVelocity());
+    }
+}
+
+function fctnHasVelocity(index) {
+    if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject" || arrObjectArray[index].getObjectType() == "DynamicPointObject" || arrObjectArray[index].getObjectType() == "DynamicObject"){
+        return true;
+    }
+    return false;
+}
+
+function fctnHasMomentum(index) {
+    if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject"){
+        return true;
+    }
+    return false;
 }
 
 

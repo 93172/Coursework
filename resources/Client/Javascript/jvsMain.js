@@ -6,11 +6,10 @@ var cnvsWidth = (0.9*document.body.clientWidth);
 var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
-var fltGravity = 0.00;
+var fltGravity = 0.05;
 var fltAirResistance = 1;
-
 //Object Array
-arrObjectArray = [playerObject,wall1];
+arrObjectArray = [playerObject,floor];
 
 //Listening for key pressed
 window.addEventListener("keydown",function(event) {
@@ -36,8 +35,8 @@ function fctnDrawObjects(){
     cnvsContext.clearRect(0,0,2000*ratio,800*ratio);
     for (var intLoop = 0; intLoop < arrObjectArray.length; intLoop++){
         cnvsContext.beginPath();
-        cnvsContext.moveTo(arrObjectArray[intLoop].getX(),arrObjectArray[intLoop].getY());
-        cnvsContext.rect(arrObjectArray[intLoop].getX(),arrObjectArray[intLoop].getY(),arrObjectArray[intLoop].getXDimention(),arrObjectArray[intLoop].getYDimention());
+        cnvsContext.moveTo(ratio*arrObjectArray[intLoop].getX(),ratio*arrObjectArray[intLoop].getY());
+        cnvsContext.rect(ratio*arrObjectArray[intLoop].getX(),ratio*arrObjectArray[intLoop].getY(),ratio*arrObjectArray[intLoop].getXDimention(),ratio*arrObjectArray[intLoop].getYDimention());
         cnvsContext.stroke();
 
     }
@@ -55,13 +54,16 @@ function fctnChangeSize() {
 //The main game
 function fctnMain(){
 
+
     //Momentum is only added to player if player has pressed wasd, and is only added once per frame
     if (movementObj.getBoolMoved() == true) {
         fctnMovePlayerObject();
     }
-    //Setting movementObj to values that assume no key has been pressed
+    //Setting movementObj to values that assume no key has been pressed and no collision has occured
     movementObj.setBoolMoved(false);
     movementObj.setStrKey(null);
+    movementObj.setBoolCollided(false);
+
 
 
     for (var intLoopPos = 0; intLoopPos < arrObjectArray.length; intLoopPos ++){
@@ -85,10 +87,14 @@ function fctnMain(){
     for (var i = 0; i < arrObjectArray.length; i++){
         arrObjectArray[i].setX(arrObjectArray[i].getTempX());
         arrObjectArray[i].setY(arrObjectArray[i].getTempY());
-        arrObjectArray[i].setXVelocity(arrObjectArray[i].getTempXVelocity());
-        arrObjectArray[i].setYVelocity(arrObjectArray[i].getTempYVelocity());
-        arrObjectArray[i].setXMomentum(arrObjectArray[i].getTempXMomentum());
-        arrObjectArray[i].setYMomentum(arrObjectArray[i].getTempYMomentum());
+        if (fctnHasVelocity(i) == true){
+            arrObjectArray[i].setXVelocity(arrObjectArray[i].getTempXVelocity());
+            arrObjectArray[i].setYVelocity(arrObjectArray[i].getTempYVelocity());
+            if (fctnHasMomentum(i) == true) {
+                arrObjectArray[i].setXMomentum(arrObjectArray[i].getTempXMomentum());
+                arrObjectArray[i].setYMomentum(arrObjectArray[i].getTempYMomentum());
+            }
+        }
     }
     fctnDrawObjects();
     setTimeout(fctnMain,5);
