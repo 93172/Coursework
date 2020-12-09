@@ -9,26 +9,30 @@ var ratio = cnvsWidth/2000;
 var fltGravity = 0.05;
 var fltAirResistance = 1;
 //Object Array
-arrObjectArray = [playerObject,floor];
+arrObjectArray = [playerObject,cube2,floor,leftWall];
+//Var holds frames in which player jumps after pressing w
+var intJump = 0;
+
 
 //Listening for key pressed
 window.addEventListener("keydown",function(event) {
-    if (event.key == "a" || event.key == "s" || event.key == "d" || event.key == "w"){
+    if (event.key == "a" ||event.key == "d"){
         movementObj.setBoolMoved(true);
         movementObj.setStrKey(event.key);
+    } else if (event.key == "w") {
+        intJump = 10;
     }
 },false);
 
 //Changes canvas size whenever the screen size is changed
 window.addEventListener("resize",fctnChangeSize);
 
+
 //Initialises game, resizes canvas to previously calculated values
 function fctnInitialiseGame() {
     fctnChangeSize();
     fctnMain();
 }
-
-
 
 function fctnDrawObjects(){
 
@@ -62,7 +66,10 @@ function fctnMain(){
     //Setting movementObj to values that assume no key has been pressed and no collision has occured
     movementObj.setBoolMoved(false);
     movementObj.setStrKey(null);
-    movementObj.setBoolCollided(false);
+    movementObj.setboolCollided(false);
+    intJump -= 1;
+
+
 
 
 
@@ -70,18 +77,14 @@ function fctnMain(){
         fctnFindNewPos(intLoopPos);
     }
 
-    //Finding new positions if a collision takes place
-    for (var intLoopDecCol1 = 0; intLoopDecCol1 < arrObjectArray.length; intLoopDecCol1 ++){
 
-        for (var intLoopDecCol2 = (intLoopDecCol1 +1); intLoopDecCol2 < arrObjectArray.length; intLoopDecCol2++){
-            //Checks to see if collision has occured between 2 objects and finds new position
-            fctnDetectCollisons(intLoopDecCol1,intLoopDecCol2);
+    fctnCollisionLoop();
 
-        }
+
+    if (movementObj.boolCollided == true && intJump > 0){
+        intJump = 0 ;
+        fctnPlayerAbilityJump();
     }
-
-
-
 
     //Setting initial values to temp values
     for (var i = 0; i < arrObjectArray.length; i++){
@@ -96,6 +99,7 @@ function fctnMain(){
             }
         }
     }
+
     fctnDrawObjects();
     setTimeout(fctnMain,5);
 

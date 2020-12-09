@@ -4,27 +4,26 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
         //Finds if collision has taken place
         if ( ( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getTempY()) > arrObjectArray[indexObj2].getTempY()) && ( (arrObjectArray[indexObj2].getTempY() > arrObjectArray[indexObj1].getTempY()) || (arrObjectArray[indexObj2].getTempY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getTempY() ) ) ) ){
-            fctnCollision(indexObj1,indexObj2);
+            if (indexObj1 == 0){
+                movementObj.setboolCollided(true);
+            }
+
+            return true;
         }
+
     }
+    return false;
 }
 
+
+
+
+
 //Finding out what type of collision takes place and starting relevent function
-
-
 function fctnCollision(indexObj1,indexObj2){
-    var axis;
     var u1;
     var u2;
-    //Collision happens on Y axis
-    if (( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getY()) > arrObjectArray[indexObj2].getY()) && ( (arrObjectArray[indexObj2].getY() > arrObjectArray[indexObj1].getY()) || (arrObjectArray[indexObj2].getY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getY() ) ) )){
-        axis = "x";
-    } else {
-        axis = "y";
-        if (indexObj1 == 0){
-            movementObj.setBoolCollided(true);
-        }
-    }
+    var axis = fctnFindCollisionAxis(indexObj1,indexObj2);
 
 
 
@@ -40,7 +39,7 @@ function fctnCollision(indexObj1,indexObj2){
         }
 
         fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis);
-    } else if (arrObjectArray[indexObj1].getObjectType() == "StaticObject" && arrObjectArray[indexObj2.getObjectType() == "ConservativeDynamicObject"]){
+    } else if (arrObjectArray[indexObj1].getObjectType() == "StaticObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject"){
         //Conservative collision with static object, making sure conservative object is object 1
         fctnConservativeStaticCollision(indexObj2,indexObj1,axis);
     } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "StaticObject"){
@@ -60,8 +59,6 @@ function fctnConservativeStaticCollision(obj1,obj2,axis){
     var m = arrObjectArray[obj1].getMass();
 
 
-
-    //Finding if time for x collision > time for y collision
     if (axis == "x"){
         //X axis collides
         //Finding u on X axis
@@ -74,7 +71,7 @@ function fctnConservativeStaticCollision(obj1,obj2,axis){
         //Setting new momentum
         arrObjectArray[obj1].setTempXMomentum(v/m);
         //Setting new position
-        arrObjectArray[obj1].setTempX(arrObjectArray[obj1].getX() + v);
+        arrObjectArray[obj1].setTempX(arrObjectArray[obj1].getX() + v );
     } else {
         //Y axis collides
         //Finding u on Y axis
@@ -108,7 +105,6 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
     var v2 = e*(u1-u2) + v1;
 
     if (axis == "x"){
-
         //Setting new velocities
         arrObjectArray[indexObj1].setTempXVelocity(v1);
         arrObjectArray[indexObj2].setTempXVelocity(v2);
@@ -118,7 +114,14 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
         //Setting new pos
         arrObjectArray[indexObj1].setTempX(arrObjectArray[indexObj1].getX() + v1);
         arrObjectArray[indexObj2].setTempX(arrObjectArray[indexObj2].getX() + v2);
+
+        if (fctnDetectCollisons(indexObj1,indexObj2)){
+            fctnConservativeCollision(indexObj1,indexObj2,0,0,"y")
+        }
+
+
     } else {
+
         //Setting new velocities
         arrObjectArray[indexObj1].setTempYVelocity(v1);
         arrObjectArray[indexObj2].setTempYVelocity(v2);
@@ -128,32 +131,38 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
         //Setting new pos
         arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getY() + v1);
         arrObjectArray[indexObj2].setTempY(arrObjectArray[indexObj2].getY() + v2);
+
+
+
     }
 
+
+
+}
+
+function fctnCollisionLoop(){
+    //Finding new positions if a collision takes place
+    for (var indexObj1 = 0; indexObj1 < arrObjectArray.length; indexObj1++) {
+        for (var indexObj2 = indexObj1 + 1; indexObj2 < arrObjectArray.length; indexObj2++) {
+            //Checks to see if collision has occured between 2 objects and finds new position
+            if (fctnDetectCollisons(indexObj1, indexObj2) == true) {
+                fctnCollision(indexObj1, indexObj2);
+            }
+
+        }
+    }
 }
 
 
 
-
-
-/*
-//Finding difference between two objects closest sides/difference in velocity
-//Offset index is if is x or y 0 for x 1 for y
-function fctnFindTimeForCollision(obj1,obj2,offsetIndex) {
-    var diffVelocity = arrObjectProporties[obj2][8 + offsetIndex] - arrObjectProporties[obj1][8 + offsetIndex];
-
-    var obj2coord;
-    var obj1coord;
-
-    //Finding which sides will collide
-    if (diffVelocity > 0){
-        obj2coord = arrObjectProporties[obj2][2 + offsetIndex] + arrObjectProporties[obj2][4 + offsetIndex];
-        obj1coord = arrObjectProporties[obj1][2 + offsetIndex];
+//Find axis the collision will happen on
+function fctnFindCollisionAxis(indexObj1,indexObj2) {
+    if (( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getY()) > arrObjectArray[indexObj2].getY()) && ( (arrObjectArray[indexObj2].getY() > arrObjectArray[indexObj1].getY()) || (arrObjectArray[indexObj2].getY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getY() ) ) )){
+        return("x");
     } else {
-        obj1coord = arrObjectProporties[obj1][2 + offsetIndex] + arrObjectProporties[obj1][4 + offsetIndex];
-        obj2coord = arrObjectProporties[obj2][2 + offsetIndex];
+        return ("y");
     }
 
-    return (obj2coord - obj1coord)/diffVelocity;
 }
-*/
+
+

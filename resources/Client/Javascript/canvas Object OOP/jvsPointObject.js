@@ -7,6 +7,7 @@ class PointObject{
         this.y = y;
         this.tempX = x;
         this.tempY = y;
+        this.lastCollisionAxis = null;
     }
 
 
@@ -31,6 +32,18 @@ class PointObject{
     getObjectType() {
         return("PointObject");
     }
+    getTempXVelocity(){
+        return(0);
+    }
+
+    getTempYVelocity(){
+        return(0);
+    }
+
+
+
+
+
 
 
 
@@ -50,4 +63,5 @@ class PointObject{
     setTempY(y){
         this.tempY = y;
     }
+
 }

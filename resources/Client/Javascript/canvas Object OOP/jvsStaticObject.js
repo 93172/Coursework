@@ -28,6 +28,9 @@ class StaticObject extends PointObject{
         return("StaticObject");
     }
 
+
+
+
     //Setters
     setXDimention(xDimention){
         this.xDimention = xDimention;

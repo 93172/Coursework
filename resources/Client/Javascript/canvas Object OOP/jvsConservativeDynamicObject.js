@@ -37,6 +37,8 @@ class ConservativeDynamicObject extends  DynamicObject{
         return(this.mass);
     }
 
+
+
     //Setters
     setXMomentum(xMomentum){
         this.xMomentum = xMomentum;

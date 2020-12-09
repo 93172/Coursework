@@ -18,7 +18,7 @@ class Movement{
         return(this.strKey);
     }
 
-    getBoolCollided(){
+    getboolCollided(){
         return(this.boolCollided);
     }
 
@@ -31,7 +31,7 @@ class Movement{
         this.strKey = strKey;
     }
 
-    setBoolCollided(boolCollided){
+    setboolCollided(boolCollided){
         this.boolCollided = boolCollided;
     }
 }
@@ -48,13 +48,7 @@ function fctnMovePlayerObject(){
         playerObject.setTempXMomentum(playerObject.getTempXMomentum() - fltMomentumStep);
     }
 
-    if (movementObj.getStrKey() === "s"){
-        //playerObject.setTempYMomentum(playerObject.getTempYMomentum() + fltMomentumStep);
-    } else if (movementObj.getStrKey() === "w"){
-        if (movementObj.getBoolCollided() == true){
-            playerObject.setTempYMomentum(-5);
-        }
-    }
+
 }
 
 
@@ -63,7 +57,7 @@ function fctnFindNewPos(index) {
 
     //Implementing gravity and air resistance
     if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject") {
-        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + fltGravity);
+        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + fltGravity/arrObjectArray[index].getMass());
         //Air resistance
         arrObjectArray[index].setTempXMomentum(arrObjectArray[index].getTempXMomentum() * fltAirResistance);
         arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() * fltAirResistance);
@@ -78,6 +72,9 @@ function fctnFindNewPos(index) {
         arrObjectArray[index].setTempX(arrObjectArray[index].getTempX() + arrObjectArray[index].getTempXVelocity());
         arrObjectArray[index].setTempY(arrObjectArray[index].getTempY() + arrObjectArray[index].getTempYVelocity());
     }
+
+
+
 }
 
 function fctnHasVelocity(index) {
