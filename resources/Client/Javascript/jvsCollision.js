@@ -1,6 +1,12 @@
 //Detects if any collisions have taken place
 function fctnDetectCollisons(indexObj1,indexObj2){
-    if ((arrObjectArray[indexObj1].getObjectType() != "PointObject") && (arrObjectArray[indexObj2].getObjectType() != "PointObject") ){
+
+    //Checking if player has collided with a collectable
+    if (indexObj1 == 0 && arrObjectArray[indexObj2].getObjectType() == "CollectableObject"){
+        if (( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getX() - arrObjectArray[indexObj2].getRadius() ) && ( (arrObjectArray[indexObj2].getX() - arrObjectArray[indexObj2].getRadius() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getX() + arrObjectArray[indexObj2].getRadius()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getTempY()) > arrObjectArray[indexObj2].getY() - arrObjectArray[indexObj2].getRadius()) && ( (arrObjectArray[indexObj2].getY() - arrObjectArray[indexObj2].getRadius() > arrObjectArray[indexObj1].getTempY()) || (arrObjectArray[indexObj2].getY() + arrObjectArray[indexObj2].getRadius()) > arrObjectArray[indexObj1].getTempY() ) ) )){
+            return true;
+        }
+    } else if ((arrObjectArray[indexObj1].getObjectType() != "CollectableObject") && (arrObjectArray[indexObj2].getObjectType() != "CollectableObject") ){
 
         //Finds if collision has taken place
         if ( ( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getTempY()) > arrObjectArray[indexObj2].getTempY()) && ( (arrObjectArray[indexObj2].getTempY() > arrObjectArray[indexObj1].getTempY()) || (arrObjectArray[indexObj2].getTempY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getTempY() ) ) ) ){
@@ -23,7 +29,15 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 function fctnCollision(indexObj1,indexObj2){
     var u1;
     var u2;
-    var axis = fctnFindCollisionAxis(indexObj1,indexObj2);
+    if (indexObj1 == 0 && arrObjectArray[indexObj2].getObjectType() == "CollectableObject"){
+        console.log("E");
+        fctnPickUp(indexObj2);
+    } else {
+        var axis = fctnFindCollisionAxis(indexObj1,indexObj2);
+    }
+
+
+
 
 
 
@@ -54,11 +68,11 @@ function fctnCollision(indexObj1,indexObj2){
     }
 
 
-    //Conservative collision with static object
+
 }
 
 
-
+//Conservative collision with static object
 function fctnConservativeStaticCollision(obj1,obj2,axis){
     //In this function the value of e used will be that of object 2
     var e = arrObjectArray[obj2].getE();
@@ -142,11 +156,6 @@ function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
         //Setting new position
         arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getY() + v);
     }
-
-
-
-
-
 }
 
 
@@ -220,6 +229,11 @@ function fctnFindCollisionAxis(indexObj1,indexObj2) {
     } else {
         return ("y");
     }
+
+}
+
+//Function for pick up
+function fctnPickUp(index){
 
 }
 

@@ -38,11 +38,20 @@ function fctnDrawObjects(){
 
     cnvsContext.clearRect(0,0,2000*ratio,800*ratio);
     for (var intLoop = 0; intLoop < arrObjectArray.length; intLoop++){
-        cnvsContext.beginPath();
-        cnvsContext.moveTo(ratio*arrObjectArray[intLoop].getX(),ratio*arrObjectArray[intLoop].getY());
-        cnvsContext.rect(ratio*arrObjectArray[intLoop].getX(),ratio*arrObjectArray[intLoop].getY(),ratio*arrObjectArray[intLoop].getXDimention(),ratio*arrObjectArray[intLoop].getYDimention());
-        cnvsContext.stroke();
-
+        if (arrObjectArray[intLoop].getObjectType() != "CollectableObject") {
+            cnvsContext.beginPath();
+            cnvsContext.moveTo(ratio * arrObjectArray[intLoop].getX(), ratio * arrObjectArray[intLoop].getY());
+            cnvsContext.rect(ratio * arrObjectArray[intLoop].getX(), ratio * arrObjectArray[intLoop].getY(), ratio * arrObjectArray[intLoop].getXDimention(), ratio * arrObjectArray[intLoop].getYDimention());
+            cnvsContext.stroke();
+        } else {
+            //Draws a circle, if object is a collectable
+            //Setting color
+            cnvsContext.strokeStyle = "#FF0000";
+            cnvsContext.beginPath();
+            cnvsContext.arc(ratio * arrObjectArray[intLoop].getX(),ratio * arrObjectArray[intLoop].getY(),ratio * arrObjectArray[intLoop].getRadius(),0,2*Math.PI);
+            cnvsContext.stroke();
+            cnvsContext.strokeStyle = "#000000";
+        }
     }
 }
 
