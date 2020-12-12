@@ -9,7 +9,7 @@ var ratio = cnvsWidth/2000;
 var fltGravity = 0.05;
 var fltAirResistance = 1;
 //Object Array
-arrObjectArray = [playerObject,cube2,floor,leftWall];
+arrObjectArray = [playerObject,obj3,floor,leftWall];
 //Var holds frames in which player jumps after pressing w
 var intJump = 0;
 

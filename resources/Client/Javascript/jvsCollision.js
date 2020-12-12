@@ -45,6 +45,12 @@ function fctnCollision(indexObj1,indexObj2){
     } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "StaticObject"){
         //Conservative collision with static object, making sure conservative object is object 1
         fctnConservativeStaticCollision(indexObj1,indexObj2,axis);
+    } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "DynamicObject"){
+        //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
+        fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis);
+    } else if (arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj1].getObjectType() == "DynamicObject"){
+        //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
+        fctnConservativeConservativeDynamicCollision(indexObj2,indexObj1,axis);
     }
 
 
@@ -89,7 +95,59 @@ function fctnConservativeStaticCollision(obj1,obj2,axis){
 
 }
 
+//Finds Results of collisions between dynamic objects and conservative dynamic objects
+function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
+//In this function the value of e used will be that of object 2
+    var e = arrObjectArray[indexObj2].getE();
+    var m = arrObjectArray[indexObj1].getMass();
 
+
+
+    if (axis == "x"){
+        //X axis collides
+        //Finding u on X axis
+        var u = arrObjectArray[indexObj1].getTempXVelocity();
+        var u2 = arrObjectArray[indexObj2].getXVelocity();
+        //Finding new final velocity
+        v = e*u;
+        if ((u2 >= 0 && u <= 0) || (v <= 0 && u2 >= 0)){
+            v = -e*u;
+        }
+        var v = u2  + v;
+
+
+        //Setting new velocity
+        arrObjectArray[indexObj1].setTempXVelocity(v);
+        //Setting new momentum
+        arrObjectArray[indexObj1].setTempXMomentum(v/m);
+        //Setting new position
+        arrObjectArray[indexObj1].setTempX(arrObjectArray[indexObj1].getX() + v );
+    } else {
+        //Y axis collides
+        //Finding u on Y axis
+        var u = arrObjectArray[indexObj1].getTempYVelocity();
+        //Finding new final velocity
+        v = e*u;
+        if ((u2 >= 0 && u <= 0) || (v <= 0 && u2 >= 0)){
+            v = -e*u;
+        }
+        var v = u2  + v;
+
+        //Finding new final velocity
+        var v = -e*u;
+        //Setting new velocity
+        arrObjectArray[indexObj1].setTempYVelocity(v);
+        //Setting new momentum
+        arrObjectArray[indexObj1].setTempYMomentum(v/m);
+        //Setting new position
+        arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getY() + v);
+    }
+
+
+
+
+
+}
 
 
 //Finds out velocities for a collision involving 2 conservative dynamic objects
@@ -164,5 +222,8 @@ function fctnFindCollisionAxis(indexObj1,indexObj2) {
     }
 
 }
+
+
+
 
 

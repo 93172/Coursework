@@ -55,6 +55,19 @@ function fctnMovePlayerObject(){
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index) {
 
+    //If the conservative object reaches its bounds it switches direction
+    if (arrObjectArray[index].getObjectType() == "DynamicObject") {
+        if (arrObjectArray[index].getAxis() == "x") {
+            if (((arrObjectArray[index].getX() < arrObjectArray[index].getBound1() && arrObjectArray[index].getXVelocity() < 0) || (arrObjectArray[index].getX() > arrObjectArray[index].getBound2()) && arrObjectArray[index].getXVelocity() > 0)) {
+                arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getXVelocity()*-1);
+                arrObjectArray[index].setXVelocity(arrObjectArray[index].getTempXVelocity());
+            }
+        } else if (((arrObjectArray[index].getY() < arrObjectArray[index].getBound1() && arrObjectArray[index].getYVelocity() < 0) || (arrObjectArray[index].getY() > arrObjectArray[index].getBound2()) && arrObjectArray[index].getYVelocity() > 0)) {
+            arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getYVelocity()*-1);
+            arrObjectArray[index].setYVelocity(arrObjectArray[index].getTempYVelocity());
+        }
+    }
+
     //Implementing gravity and air resistance
     if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject") {
         arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + fltGravity/arrObjectArray[index].getMass());
@@ -64,10 +77,11 @@ function fctnFindNewPos(index) {
     }
 
     if (fctnHasVelocity(index) == true) {
-        //Calculating velocity of object
-        arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getTempXMomentum() / arrObjectArray[index].getMass());
-        arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getTempYMomentum() / arrObjectArray[index].getMass());
-
+        if (fctnHasMomentum(index) == true) {
+            //Calculating velocity of object
+            arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getTempXMomentum() / arrObjectArray[index].getMass());
+            arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getTempYMomentum() / arrObjectArray[index].getMass());
+        }
         //Finding new position of the object
         arrObjectArray[index].setTempX(arrObjectArray[index].getTempX() + arrObjectArray[index].getTempXVelocity());
         arrObjectArray[index].setTempY(arrObjectArray[index].getTempY() + arrObjectArray[index].getTempYVelocity());
