@@ -51,17 +51,23 @@ function fctnMovePlayerObject(){
 
 }
 
+//Allows player to jump
+function fctnPlayerAbilityJump(){
+    playerObject.setTempYMomentum(playerObject.getTempYMomentum()-intJumpHeight*intGravityDirection);
+}
 
 //Uses temporary array to calculate new position of object, assuming no new collisions take place
 function fctnFindNewPos(index) {
 
     //If the conservative object reaches its bounds it switches direction
     if (arrObjectArray[index].getObjectType() == "DynamicObject") {
+        //If bound is in x axis
         if (arrObjectArray[index].getAxis() == "x") {
             if (((arrObjectArray[index].getX() < arrObjectArray[index].getBound1() && arrObjectArray[index].getXVelocity() < 0) || (arrObjectArray[index].getX() > arrObjectArray[index].getBound2()) && arrObjectArray[index].getXVelocity() > 0)) {
-                arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getXVelocity()*-1);
+                arrObjectArray[index].setTempXVelocity(arrObjectArray[index].getXVelocity() * -1);
                 arrObjectArray[index].setXVelocity(arrObjectArray[index].getTempXVelocity());
             }
+        //If bound is in y axis
         } else if (((arrObjectArray[index].getY() < arrObjectArray[index].getBound1() && arrObjectArray[index].getYVelocity() < 0) || (arrObjectArray[index].getY() > arrObjectArray[index].getBound2()) && arrObjectArray[index].getYVelocity() > 0)) {
             arrObjectArray[index].setTempYVelocity(arrObjectArray[index].getYVelocity()*-1);
             arrObjectArray[index].setYVelocity(arrObjectArray[index].getTempYVelocity());
@@ -70,7 +76,7 @@ function fctnFindNewPos(index) {
 
     //Implementing gravity and air resistance
     if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject") {
-        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + fltGravity/arrObjectArray[index].getMass());
+        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + intGravityDirection*fltGravity/arrObjectArray[index].getMass());
         //Air resistance
         arrObjectArray[index].setTempXMomentum(arrObjectArray[index].getTempXMomentum() * fltAirResistance);
         arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() * fltAirResistance);

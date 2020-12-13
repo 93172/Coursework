@@ -7,9 +7,12 @@ var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
 var fltGravity = 0.05;
-var fltAirResistance = 1;
+var intGravityDirection = 1;
+var fltAirResistance = 0.995;
+var intJumpHeight = 5;
 //Object Array
-arrObjectArray = [playerObject,obj3,floor,leftWall];
+arrObjectArray = [playerObject,obj3,floor,leftWall,ceiling];
+
 //Var holds frames in which player jumps after pressing w
 var intJump = 0;
 
@@ -33,6 +36,8 @@ function fctnInitialiseGame() {
     fctnChangeSize();
     fctnMain();
 }
+
+
 
 function fctnDrawObjects(){
 

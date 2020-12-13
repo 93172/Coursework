@@ -25,12 +25,16 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
 
 
-//Finding out what type of collision takes place and starting relevent function
+//Finding out what type of collision takes place and starting relevant function
 function fctnCollision(indexObj1,indexObj2){
     var u1;
     var u2;
+    //Finds if the collision is picking up a collectable or if the axis the collision happens on needs to be found
     if (indexObj1 == 0 && arrObjectArray[indexObj2].getObjectType() == "CollectableObject"){
-        console.log("E");
+        //Moves the player object away so the player object doesnt constantly collide with it
+        arrObjectArray[indexObj2].setTempX(-1000);
+        arrObjectArray[indexObj2].setTempY(-1000);
+        //Calls fctnPickUp to find out what its effect is
         fctnPickUp(indexObj2);
     } else {
         var axis = fctnFindCollisionAxis(indexObj1,indexObj2);
@@ -232,10 +236,7 @@ function fctnFindCollisionAxis(indexObj1,indexObj2) {
 
 }
 
-//Function for pick up
-function fctnPickUp(index){
 
-}
 
 
 
