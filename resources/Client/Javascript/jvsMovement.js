@@ -46,6 +46,12 @@ function fctnMovePlayerObject(){
         playerObject.setTempXMomentum(playerObject.getTempXMomentum() + fltMomentumStep);
     } else if (movementObj.getStrKey() === "a"){
         playerObject.setTempXMomentum(playerObject.getTempXMomentum() - fltMomentumStep);
+    } else if (movementObj.getStrKey() === "w" && boolCanFly == true){
+        //If player can fly then this allows them to freely move in the y axis
+        playerObject.setTempYMomentum(playerObject.getTempYMomentum() - fltMomentumStep);
+    } else if (movementObj.getStrKey() === "s" && boolCanFly == true){
+        //If player can fly then this allows them to freely move in the y axis
+        playerObject.setTempYMomentum(playerObject.getTempYMomentum() + fltMomentumStep);
     }
 
 

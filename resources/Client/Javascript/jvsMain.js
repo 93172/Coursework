@@ -10,9 +10,9 @@ var fltGravity = 0.05;
 var intGravityDirection = 1;
 var fltAirResistance = 0.995;
 var intJumpHeight = 5;
+var boolCanFly = false;
 //Object Array
 arrObjectArray = [playerObject,obj3,floor,leftWall,ceiling];
-
 //Var holds frames in which player jumps after pressing w
 var intJump = 0;
 
@@ -20,10 +20,16 @@ var intJump = 0;
 //Listening for key pressed
 window.addEventListener("keydown",function(event) {
     if (event.key == "a" ||event.key == "d"){
+        //Sets the movement key for the player object to the last key pressed if a or d
         movementObj.setBoolMoved(true);
         movementObj.setStrKey(event.key);
-    } else if (event.key == "w") {
+    } else if (event.key == "w" && boolCanFly == false) {
+        //If player cannot fly then
         intJump = 10;
+    } else if (event.key == "w" || event.key == "s" && boolCanFly == true) {
+        //Sets movement key for the player to the last key pressed if w or s and the player can fly
+        movementObj.setBoolMoved(true);
+        movementObj.setStrKey(event.key);
     }
 },false);
 
