@@ -12,7 +12,7 @@ var fltAirResistance = 0.995;
 var intJumpHeight = 5;
 var boolCanFly = false;
 //Object Array
-arrObjectArray = [playerObject,obj3,floor,leftWall,ceiling];
+arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling];
 //Var holds frames in which player jumps after pressing w
 var intJump = 0;
 
@@ -39,6 +39,7 @@ window.addEventListener("resize",fctnChangeSize);
 
 //Initialises game, resizes canvas to previously calculated values
 function fctnInitialiseGame() {
+    fctnLevel1();
     fctnChangeSize();
     fctnMain();
 }
@@ -50,14 +51,18 @@ function fctnDrawObjects(){
     cnvsContext.clearRect(0,0,2000*ratio,800*ratio);
     for (var intLoop = 0; intLoop < arrObjectArray.length; intLoop++){
         if (arrObjectArray[intLoop].getObjectType() != "CollectableObject") {
+            //Sets line width 2 for non collectables
+            cnvsContext.lineWidth = 2;
             cnvsContext.beginPath();
             cnvsContext.moveTo(ratio * arrObjectArray[intLoop].getX(), ratio * arrObjectArray[intLoop].getY());
             cnvsContext.rect(ratio * arrObjectArray[intLoop].getX(), ratio * arrObjectArray[intLoop].getY(), ratio * arrObjectArray[intLoop].getXDimention(), ratio * arrObjectArray[intLoop].getYDimention());
             cnvsContext.stroke();
         } else {
             //Draws a circle, if object is a collectable
+            //Sets line width to 4 for collectables to differentiate more from non collectables
+            cnvsContext.lineWidth = 4;
             //Setting color
-            cnvsContext.strokeStyle = "#FF0000";
+            cnvsContext.strokeStyle = arrObjectArray[intLoop].getColor();
             cnvsContext.beginPath();
             cnvsContext.arc(ratio * arrObjectArray[intLoop].getX(),ratio * arrObjectArray[intLoop].getY(),ratio * arrObjectArray[intLoop].getRadius(),0,2*Math.PI);
             cnvsContext.stroke();
@@ -130,13 +135,13 @@ function fctnMain(){
 
 
 
-
-
-
-
-
-
-
-
-
 fctnInitialiseGame();
+
+
+
+
+
+
+
+
+

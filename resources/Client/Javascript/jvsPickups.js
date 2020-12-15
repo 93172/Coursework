@@ -18,6 +18,16 @@ function fctnPickUp(index){
     //Allows player to fly
     } else if (arrObjectArray[index].getCollectableType() == "letPlayerFly"){
         fctnLetPlayerFly();
+    //Sends player to start of level 1 -- This will be red
+    } else if (arrObjectArray[index].getCollectableType() == "level1"){
+        fctnLevel1();
+    //Sends player to start of level 2 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level2-1"){
+        fctnLevel2_1();
+    } else if (arrObjectArray[index].getCollectableType() == "level2-2"){
+        fctnLevel2_2();
+    } else if (arrObjectArray[index].getCollectableType() == "level3-1"){
+        fctnLevel3_1();
     }
 }
 
@@ -27,7 +37,7 @@ function fctnChangeGravity(){
     intGravityDirection = intGravityDirection *-1;
 }
 
-//Reverses gravity -- Make this type of object yellow
+//Increases jump height -- Make this type of object yellow #e6da00
 function fctnIncreaseJumpHeight(){
     //Increases the jump constant
     intJumpHeight = intJumpHeight += 5;
@@ -56,7 +66,8 @@ function fctnReduceGravity() {
     fltGravity = fltGravity/2;
 }
 
-//Allows player to fly and stops them being able to jump, can move freely in y like in x -- make red
+//Allows player to fly and stops them being able to jump, can move freely in y like in x -- make dark blue
 function fctnLetPlayerFly() {
     boolCanFly = true;
 }
+
