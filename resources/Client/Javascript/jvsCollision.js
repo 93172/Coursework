@@ -40,39 +40,36 @@ function fctnCollision(indexObj1,indexObj2){
         fctnPickUp(indexObj2);
     } else {
         var axis = fctnFindCollisionAxis(indexObj1,indexObj2);
-    }
 
+        if (length >= arrObjectArray.length) {
+            if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject") {
+                //This means momentum is conserved in the collision
+                if (axis == "x") {
+                    u1 = arrObjectArray[indexObj1].getTempXVelocity();
+                    u2 = arrObjectArray[indexObj2].getTempXVelocity();
+                } else {
+                    u1 = arrObjectArray[indexObj1].getTempYVelocity();
+                    u2 = arrObjectArray[indexObj2].getTempYVelocity();
+                }
 
-
-
-
-
-    if (length >= arrObjectArray.length) {
-        if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject") {
-            //This means momentum is conserved in the collision
-            if (axis == "x") {
-                u1 = arrObjectArray[indexObj1].getTempXVelocity();
-                u2 = arrObjectArray[indexObj2].getTempXVelocity();
-            } else {
-                u1 = arrObjectArray[indexObj1].getTempYVelocity();
-                u2 = arrObjectArray[indexObj2].getTempYVelocity();
+                fctnConservativeCollision(indexObj1, indexObj2, u1, u2, axis);
+            } else if (arrObjectArray[indexObj1].getObjectType() == "StaticObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject") {
+                //Conservative collision with static object, making sure conservative object is object 1
+                fctnConservativeStaticCollision(indexObj2, indexObj1, axis);
+            } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "StaticObject") {
+                //Conservative collision with static object, making sure conservative object is object 1
+                fctnConservativeStaticCollision(indexObj1, indexObj2, axis);
+            } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "DynamicObject") {
+                //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
+                fctnConservativeConservativeDynamicCollision(indexObj1, indexObj2, axis);
+            } else if (arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj1].getObjectType() == "DynamicObject") {
+                //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
+                fctnConservativeConservativeDynamicCollision(indexObj2, indexObj1, axis);
             }
-
-            fctnConservativeCollision(indexObj1, indexObj2, u1, u2, axis);
-        } else if (arrObjectArray[indexObj1].getObjectType() == "StaticObject" && arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject") {
-            //Conservative collision with static object, making sure conservative object is object 1
-            fctnConservativeStaticCollision(indexObj2, indexObj1, axis);
-        } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "StaticObject") {
-            //Conservative collision with static object, making sure conservative object is object 1
-            fctnConservativeStaticCollision(indexObj1, indexObj2, axis);
-        } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "DynamicObject") {
-            //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
-            fctnConservativeConservativeDynamicCollision(indexObj1, indexObj2, axis);
-        } else if (arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj1].getObjectType() == "DynamicObject") {
-            //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
-            fctnConservativeConservativeDynamicCollision(indexObj2, indexObj1, axis);
         }
     }
+
+
 
 
 }
