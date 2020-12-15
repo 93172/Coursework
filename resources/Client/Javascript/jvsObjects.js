@@ -9,6 +9,13 @@ var ceiling = new StaticObject("ceiling",0,-50,2000,50,1.5);
 
 
 function fctnLevel1() {
+    //Making sure all constants are the right value
+    fltGravity = 0.05;
+    intGravityDirection = 1;
+    fltAirResistance = 0.995;
+    intJumpHeight = 5;
+    boolCanFly = false;
+
     playerObject = new ConservativeDynamicObject("PlayerObject",5,740,0,0,50,50,0,0,2,0.5);
     //Creating pillars the players will jump up to get to the next level
     box1 = new StaticObject("box1",500,700,100,100,0.9);
@@ -29,26 +36,47 @@ function fctnLevel1() {
 }
 
 function fctnLevel2_1() {
+    //Making sure all constants are the right value
+    fltGravity = 0.05;
+    intGravityDirection = 1;
+    fltAirResistance = 0.995;
+    intJumpHeight = 5;
+    boolCanFly = false;
+
     playerObject = new ConservativeDynamicObject("PlayerObject",5,740,0,0,50,50,0,0,2,0.5);
     //Creating moving platforms the player has to jump up
     platform1 = new DynamicObject("platform1",0,675,1,0,100,50,"x",0,1900,0.5);
     platform2 = new DynamicObject("platfrom2",100,550,0.75,0,100,50,"x",0,1900,0.5);
-    platform3 = new DynamicObject("platfrom3",200,425,0.50,0,100,50,"x",0,1900,0.5);
-    platform4 = new DynamicObject("platfrom4",300,300,0.25,0,100,50,"x",0,1900,0.5);
+    platform3 = new DynamicObject("platfrom3",200,425,0.60,0,100,50,"x",0,1900,0.5);
+    platform4 = new DynamicObject("platfrom4",300,300,0.5,0,100,50,"x",0,1900,0.5);
     //Creating static platform for reverse gravity pickup, and gravity pickup
     box1 = new StaticObject("boxForGravityPickup",1800,200,200,100,0.5);
     pickUp1 = new CollectableObjects("reverseGravityPickup",1900,150,"reverseGravity","#e6da00",25);
     //Creating next level pickups
-    nextLevel2_2 = new CollectableObjects("NextLevel2-2",1000,100,"level2-2","#ff6708",25);
+    nextLevel2_2 = new CollectableObjects("NextLevel2-2",1000,25,"level2-2","#ff6708",25);
     nextLevel3_1 = new CollectableObjects("NextLevel3-1",500,200,"level3-1","#ff6708",25);
     //Initialising the object array for this level
     arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling, platform1,platform2,platform3,platform4,box1,pickUp1,nextLevel2_2,nextLevel3_1];
 }
 
 function fctnLevel2_2() {
+    //Making sure all constants are the right value
+    fltGravity = 0.05;
+    intGravityDirection = 1;
+    fltAirResistance = 0.995;
+    intJumpHeight = 5;
+    boolCanFly = false;
+
     arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling];
 }
 
 function fctnLevel3_1() {
+    //Making sure all constants are the right value
+    fltGravity = 0.05;
+    intGravityDirection = 1;
+    fltAirResistance = 0.995;
+    intJumpHeight = 5;
+    boolCanFly = false;
+
     arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling];
 }
