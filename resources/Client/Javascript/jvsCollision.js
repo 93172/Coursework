@@ -61,10 +61,10 @@ function fctnCollision(indexObj1,indexObj2){
                 fctnConservativeStaticCollision(indexObj1, indexObj2, axis);
             } else if (arrObjectArray[indexObj1].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj2].getObjectType() == "DynamicObject") {
                 //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
-                fctnConservativeConservativeDynamicCollision(indexObj1, indexObj2, axis);
+                fctnDynamicConservativeDynamic(indexObj1, indexObj2, axis);
             } else if (arrObjectArray[indexObj2].getObjectType() == "ConservativeDynamicObject" && arrObjectArray[indexObj1].getObjectType() == "DynamicObject") {
                 //Collisions between dynamic and conservative dynamic objects with conservativeDynamic as object 1
-                fctnConservativeConservativeDynamicCollision(indexObj2, indexObj1, axis);
+                fctnDynamicConservativeDynamic(indexObj2, indexObj1, axis);
             }
         }
     }
@@ -113,7 +113,7 @@ function fctnConservativeStaticCollision(obj1,obj2,axis){
 }
 
 //Finds Results of collisions between dynamic objects and conservative dynamic objects
-function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
+function fctnDynamicConservativeDynamic(indexObj1,indexObj2,axis){
 //In this function the value of e used will be that of object 2
     var e = arrObjectArray[indexObj2].getE();
     var m = arrObjectArray[indexObj1].getMass();
@@ -143,6 +143,7 @@ function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
         //Y axis collides
         //Finding u on Y axis
         var u = arrObjectArray[indexObj1].getTempYVelocity();
+        var u2 = arrObjectArray[indexObj2].getYVelocity();
         //Finding new final velocity
         v = e*u;
         if ((u2 >= 0 && u <= 0) || (v <= 0 && u2 >= 0)){
@@ -152,12 +153,20 @@ function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
 
         //Finding new final velocity
         var v = -e*u;
+
+        //Finding direction obj2 traveling in
+        if (u2 > 0){
+            u2 = -1
+        } else {
+            u2 = 1
+        }
+
         //Setting new velocity
         arrObjectArray[indexObj1].setTempYVelocity(v);
         //Setting new momentum
         arrObjectArray[indexObj1].setTempYMomentum(v/m);
         //Setting new position
-        arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getY() + v);
+        arrObjectArray[indexObj1].setTempY(arrObjectArray[indexObj1].getY() + v - (0.5*u2));
     }
 }
 
@@ -165,7 +174,7 @@ function fctnConservativeConservativeDynamicCollision(indexObj1,indexObj2,axis){
 //Finds out velocities for a collision involving 2 conservative dynamic objects
 function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
     //Finding values that will be constants in the function
-    var e = (arrObjectArray[indexObj1].getE() + arrObjectArray[indexObj1].getE())/2;
+    var e = (arrObjectArray[indexObj1].getE() + arrObjectArray[indexObj2].getE())/2;
     var m1 = arrObjectArray[indexObj1].getMass();
     var m2 = arrObjectArray[indexObj2].getMass();
 
@@ -173,7 +182,6 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
     //Finding new final velocities
     var v1 = ((m1*u1) + (m2*u2) - (m2*e*(u1-u2)))/(m1+m2);
     var v2 = e*(u1-u2) + v1;
-
     if (axis == "x"){
         //Setting new velocities
         arrObjectArray[indexObj1].setTempXVelocity(v1);
@@ -185,9 +193,13 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
         arrObjectArray[indexObj1].setTempX(arrObjectArray[indexObj1].getX() + v1);
         arrObjectArray[indexObj2].setTempX(arrObjectArray[indexObj2].getX() + v2);
 
+
+
         if (fctnDetectCollisons(indexObj1,indexObj2)){
             fctnConservativeCollision(indexObj1,indexObj2,0,0,"y")
+
         }
+
 
 
     } else {

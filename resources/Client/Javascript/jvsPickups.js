@@ -1,37 +1,52 @@
 //Function for pick up, gives players different abilities/changes how world works
-function fctnPickUp(index){
+function fctnPickUp(index) {
     //Reverses gravity
-    if (arrObjectArray[index].getCollectableType() == "reverseGravity"){
+    if (arrObjectArray[index].getCollectableType() == "reverseGravity") {
         fctnChangeGravity();
-    //Increases jump height
-    } else if (arrObjectArray[index].getCollectableType() == "increaseJumpHeight"){
+        //Increases jump height
+    } else if (arrObjectArray[index].getCollectableType() == "increaseJumpHeight") {
         fctnIncreaseJumpHeight();
-    //Makes object smaller and weigh less
-    } else if (arrObjectArray[index].getCollectableType() == "makeSmaller"){
+        //Makes object smaller and weigh less
+    } else if (arrObjectArray[index].getCollectableType() == "makeSmaller") {
         fctnMakeSmaller();
-    //Makes object larger and weigh more
-    } else if (arrObjectArray[index].getCollectableType() == "makeLarger"){
+        //Makes object larger and weigh more
+    } else if (arrObjectArray[index].getCollectableType() == "makeLarger") {
         fctnMakeLarger();
-    //Reduces gravity
-    } else if (arrObjectArray[index].getCollectableType() == "reduceGravity"){
+        //Reduces gravity
+    } else if (arrObjectArray[index].getCollectableType() == "reduceGravity") {
         fctnReduceGravity();
-    //Allows player to fly
-    } else if (arrObjectArray[index].getCollectableType() == "letPlayerFly"){
+        //Allows player to fly
+    } else if (arrObjectArray[index].getCollectableType() == "letPlayerFly") {
         fctnLetPlayerFly();
-    //Sends player to start of level 1 -- This will be red
-    } else if (arrObjectArray[index].getCollectableType() == "level1"){
+        //Sends player to start of level 1 -- This will be red
+    } else if (arrObjectArray[index].getCollectableType() == "level1") {
         fctnLevel1();
-    //Sends player to start of level 2 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
-    } else if (arrObjectArray[index].getCollectableType() == "level2-1"){
+        //Sends player to start of level 2-1 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level2-1") {
         fctnLevel2_1();
-    } else if (arrObjectArray[index].getCollectableType() == "level2-2"){
+        //Sends player to start of level 2-2 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level2-2") {
         fctnLevel2_2();
-    } else if (arrObjectArray[index].getCollectableType() == "level3-1"){
+        //Sends player to start of level 3-1 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level3-1") {
         fctnLevel3_1();
+        //Sends player to start of level 3-2 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level3-2") {
+        fctnLevel3_2();
+        //Sends player to start of level 4-1 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level4-1") {
+        fctnLevel4_1();
+        //Sends player to start of level 4-2 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level4-2") {
+        fctnLevel4_2();
+        //Sends player to start of level 5 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
+    } else if (arrObjectArray[index].getCollectableType() == "level5") {
+        fctnLevel5();
     }
+
 }
 
-//Reverses gravity -- Make this type of object blue
+//Reverses gravity -- Make this type of object blue #0404d1
 function fctnChangeGravity(){
     //Changes the direction, not the magnitude of gravity
     intGravityDirection = intGravityDirection *-1;
@@ -43,13 +58,13 @@ function fctnIncreaseJumpHeight(){
     intJumpHeight = intJumpHeight += 5;
 }
 
-//Makes the playerObject smaller and have less mass -- Make this type of object green
+//Makes the playerObject smaller and have less mass -- Make this type of object green #3be319
 function fctnMakeSmaller(){
     //Makes object half the size
     playerObject.setXDimention(25);
     playerObject.setYDimention(25);
-    //Makes object weight half as much
-    playerObject.setMass(1);
+    //Makes object weight less
+    playerObject.setMass(1.5);
 }
 
 //Makes the playerObject larger and have more mass -- Make this type of object purple
@@ -61,12 +76,12 @@ function fctnMakeLarger() {
     playerObject.setMass(4);
 }
 
-//Halves gravity -- Make this type of object light blue
+//Halves gravity -- Make this type of object light blue #04a5d1
 function fctnReduceGravity() {
     fltGravity = fltGravity/2;
 }
 
-//Allows player to fly and stops them being able to jump, can move freely in y like in x -- make dark blue
+//Allows player to fly and stops them being able to jump, can move freely in y like in x -- make dark blue #0404d1
 function fctnLetPlayerFly() {
     boolCanFly = true;
 }

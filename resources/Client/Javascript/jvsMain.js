@@ -17,6 +17,7 @@ arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling];
 var intJump = 0;
 
 
+
 //Listening for key pressed
 window.addEventListener("keydown",function(event) {
     if (event.key == "a" ||event.key == "d"){

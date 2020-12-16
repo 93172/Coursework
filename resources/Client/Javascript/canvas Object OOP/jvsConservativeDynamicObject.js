@@ -8,6 +8,7 @@ class ConservativeDynamicObject extends  DynamicObject{
         this.tempXMomentum = xMomentum;
         this.tempYMomentum = yMomentum;
         this.mass = mass;
+        this.e = e;
     }
 
 
