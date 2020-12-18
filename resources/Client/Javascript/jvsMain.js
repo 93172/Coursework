@@ -11,10 +11,14 @@ var intGravityDirection = 1;
 var fltAirResistance = 0.995;
 var intJumpHeight = 5;
 var boolCanFly = false;
+var fltScoreTimeConstant = 0.001;
+var fltTime = 0;
 //Object Array
 arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling];
 //Var holds frames in which player jumps after pressing w
 var intJump = 0;
+//Variable that holds score
+var fltScore = 10;
 
 
 
@@ -40,7 +44,7 @@ window.addEventListener("resize",fctnChangeSize);
 
 //Initialises game, resizes canvas to previously calculated values
 function fctnInitialiseGame() {
-    fctnLevel1();
+    fctnLevel5();
     fctnChangeSize();
     fctnMain();
 }
@@ -74,15 +78,29 @@ function fctnDrawObjects(){
 
 //Changes canvas size
 function fctnChangeSize() {
+    //Changing the canvas properties
     cnvsWidth = (0.9*document.body.clientWidth);
     cnvsHeight = (cnvsWidth/2.5);
     cnvs.width = cnvsWidth;
     cnvs.height = cnvsHeight;
     ratio = cnvsWidth/2000;
+
 }
 
 //The main game
 function fctnMain(){
+    if (fltScore > 0){
+        fltScore -= fltScoreTimeConstant;
+    }
+    if (fltScore <0) {
+        fltScore = 0;
+    }
+    //Changing ScoreDisplay text in Game.html to the players score
+    document.getElementById("ScoreDisplay").innerHTML = "Score " + fltScore.toFixed(1);
+    //Adding time to time variable
+    fltTime += 0.005;
+    document.getElementById("TimeDisplay").innerHTML = "Time: " + fltTime.toFixed(1);
+
 
 
     //Momentum is only added to player if player has pressed wasd, and is only added once per frame

@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Game</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
 
+
+
+<!--Initialising the canvas-->
 <canvas id="cnvsCanvasMain" width="1" height="1" style="border:1px solid #000000;"></canvas>
 
+<!--Div for the area of the page where the score is displayed-->
+<div id = "ContainerDisplay">
+    <p id = "ScoreDisplay"></p>
+</div>
+<!--Div for holding the time the player has been playing-->
+<div id = "ContainerDisplay">
+    <p id = "TimeDisplay"></p>
+</div>
+<!--Div for holding menu button-->
+<div id = "ContainerButton">
+    <button onclick="fctnSendToMenu()" type = "button" class = "button" >Menu</button>
+</div>
 
+
+<!--All of the scripts used for the game-->
 <script src="Javascript/canvas%20Object%20OOP/jvsPointObject.js"></script>
 <script src="Javascript/canvas%20Object%20OOP/jvsDynamicPointObjects.js"></script>
 <script src="Javascript/canvas%20Object%20OOP/jvsDynamicObject.js"></script>
@@ -21,6 +41,9 @@
 <script src="Javascript/jvsObjects.js"></script>
 <script src="Javascript/jvsMain.js"></script>
 <script src="Javascript/jvsPickups.js"></script>
+
+
+
 
 
 

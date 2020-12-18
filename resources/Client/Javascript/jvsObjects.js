@@ -193,7 +193,8 @@ function fctnLevel5() {
     pickUp2 = new CollectableObjects("pickUp2 reverse gravity",1950,550,"reverseGravity","#0404d1",25);
     pickUp3 = new CollectableObjects("pickUp3 reduce gravity",1950,775,"reduceGravity","#04a5d1",5);
     //Add in pickUp to end game
+    endGame = new CollectableObjects("End game pickup",1000,325,"endGame","#ff6708",25);
 
     //Initialising object array for this level
-    arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling,platform1,platform2,wall1,wall2,wall3,wall4,movingPlatform1,box1,pickUp1,pickUp2,pickUp3];
+    arrObjectArray = [playerObject,floor,leftWall,rightWall,ceiling,platform1,platform2,wall1,wall2,wall3,wall4,movingPlatform1,box1,pickUp1,pickUp2,pickUp3,endGame];
 }

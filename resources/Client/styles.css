@@ -1,0 +1,89 @@
+#ContainerDisplay {
+    text-align: center;
+    float: left;
+    /*Making box around score*/
+    border: 2px outset black;
+    width: 10%;
+    padding: 0.1%;
+    font-size: 1.5vw;
+    background-color: #a0edf3;
+    /*Setting margin, but making 0 on left */
+    margin: 2%;
+    margin-left: 0px;
+    /*Setting font*/
+    font-family: monospace;
+
+}
+#ContainerButton {
+    text-align: center;
+    padding: 0.1%;
+    font-size: 1.5vw;
+    margin: 2%;
+    margin-left: 0px;
+    float: bottom;
+    width: 20%;
+    height: 2%;
+    /*Setting font*/
+    font-family: monospace;
+
+
+}
+
+#ContainerButtonCenter {
+    /*Making div center of screen*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+
+    text-align: center;
+    padding: 0.1%;
+    font-size: 1.5vw;
+    margin: 2%;
+    margin-left: 0px;
+    float: bottom;
+    width: 20%;
+    height: 2%;
+    /*Setting font*/
+    font-family: monospace;
+
+
+}
+
+
+#TitleDiv {
+    /*Making div center of screen*/
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%,0);
+
+
+    text-align: center;
+    /*Setting font*/
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 5vw;
+
+}
+
+
+.button {
+    background-color: #d2a0e5;
+    text-align: center;
+    border: 0px;
+    width: 100%;
+    border: black outset 2px;
+    font-size: 4vw;
+    /*Setting font*/
+    font-family: monospace;
+}
+
+body {
+    background-image: linear-gradient(#739ff1ff,#674ea7ff);
+}
+
+html {
+    min-height: 100%;
+}

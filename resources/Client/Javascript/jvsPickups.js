@@ -2,21 +2,27 @@
 function fctnPickUp(index) {
     //Reverses gravity
     if (arrObjectArray[index].getCollectableType() == "reverseGravity") {
+        fltScore += 5;
         fctnChangeGravity();
         //Increases jump height
     } else if (arrObjectArray[index].getCollectableType() == "increaseJumpHeight") {
+        fltScore += 5;
         fctnIncreaseJumpHeight();
         //Makes object smaller and weigh less
     } else if (arrObjectArray[index].getCollectableType() == "makeSmaller") {
+        fltScore += 5;
         fctnMakeSmaller();
         //Makes object larger and weigh more
     } else if (arrObjectArray[index].getCollectableType() == "makeLarger") {
+        fltScore += 5;
         fctnMakeLarger();
         //Reduces gravity
     } else if (arrObjectArray[index].getCollectableType() == "reduceGravity") {
+        fltScore += 5;
         fctnReduceGravity();
         //Allows player to fly
     } else if (arrObjectArray[index].getCollectableType() == "letPlayerFly") {
+        fltScore += 5;
         fctnLetPlayerFly();
         //Sends player to start of level 1 -- This will be red
     } else if (arrObjectArray[index].getCollectableType() == "level1") {
@@ -42,6 +48,10 @@ function fctnPickUp(index) {
         //Sends player to start of level 5 -- This will be red #ff0000 to reset level or orange #ff6708 to move onto the next level
     } else if (arrObjectArray[index].getCollectableType() == "level5") {
         fctnLevel5();
+    } else if (arrObjectArray[index].getCollectableType() == "endGame") {
+        localStorage.setItem("Score",fltScore.toFixed(1));
+        localStorage.setItem("Time",fltTime.toFixed(1));
+        window.location.replace("AddToLeaderboard.html");
     }
 
 }

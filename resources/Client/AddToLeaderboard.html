@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>AddToLeaderboard</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+    <!--Div for the area of the page where the score is displayed-->
+    <div id = "ContainerDisplay">
+        <p id = "ScoreDisplay"></p>
+    </div>
+    <!-- Div for holding the time the player has been playing-->
+    <div id = "ContainerDisplay">
+        <p id = "TimeDisplay"></p>
+    </div>
+    <!-- Div for holding menu button-->
+    <div id = "ContainerButton">
+        <button onclick="fctnSendToMenu()" type = "button" class = "button" >Menu</button>
+    </div>
+
+
+
+
+    <script src="Javascript/jvsUtilities.js"></script>
+    <script src="Javascript/jvsAddToLeaderboard.js"></script>
 </body>
 </html>

@@ -15,3 +15,11 @@ function fctnFindDifference(a,b){
         return(a-b);
     }
 }
+
+function fctnSendToMenu() {
+    window.location.replace("Menu.html");
+}
+
+function fctnSendToGame() {
+    window.location.replace("Game.html");
+}
