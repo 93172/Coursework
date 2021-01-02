@@ -82,7 +82,7 @@ function fctnFindNewPos(index) {
 
     //Implementing gravity and air resistance
     if (arrObjectArray[index].getObjectType() == "ConservativeDynamicObject") {
-        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + intGravityDirection*fltGravity/arrObjectArray[index].getMass());
+        arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() + intGravityDirection*fltGravity*arrObjectArray[index].getMass());
         //Air resistance
         arrObjectArray[index].setTempXMomentum(arrObjectArray[index].getTempXMomentum() * fltAirResistance);
         arrObjectArray[index].setTempYMomentum(arrObjectArray[index].getTempYMomentum() * fltAirResistance);

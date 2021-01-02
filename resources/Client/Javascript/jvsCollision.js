@@ -10,6 +10,7 @@ function fctnDetectCollisons(indexObj1,indexObj2){
 
         //Finds if collision has taken place
         if ( ( ( (arrObjectArray[indexObj1].getTempX() + arrObjectArray[indexObj1].getXDimention()) > arrObjectArray[indexObj2].getTempX() ) && ( (arrObjectArray[indexObj2].getTempX() > arrObjectArray[indexObj1].getTempX() ||  (arrObjectArray[indexObj2].getTempX() + arrObjectArray[indexObj2].getXDimention()) > arrObjectArray[indexObj1].getTempX() ) ) && ( ( (arrObjectArray[indexObj1].getYDimention() + arrObjectArray[indexObj1].getTempY()) > arrObjectArray[indexObj2].getTempY()) && ( (arrObjectArray[indexObj2].getTempY() > arrObjectArray[indexObj1].getTempY()) || (arrObjectArray[indexObj2].getTempY() + arrObjectArray[indexObj2].getYDimention()) > arrObjectArray[indexObj1].getTempY() ) ) ) ){
+            //Checks if the player has collided, index 0 is player object
             if (indexObj1 == 0){
                 movementObj.setboolCollided(true);
             }
@@ -68,9 +69,6 @@ function fctnCollision(indexObj1,indexObj2){
             }
         }
     }
-
-
-
 
 }
 
@@ -146,6 +144,8 @@ function fctnDynamicConservativeDynamic(indexObj1,indexObj2,axis){
         var u2 = arrObjectArray[indexObj2].getYVelocity();
         //Finding new final velocity
         v = e*u;
+        //If the two objects are going in the same direction makes sure the conservative dynamic object has at least
+        //the velocity of the dynamic object, otherwise they will phase into each other
         if ((u2 >= 0 && u <= 0) || (v <= 0 && u2 >= 0)){
             v = -e*u;
         }
@@ -194,10 +194,10 @@ function fctnConservativeCollision(indexObj1,indexObj2,u1,u2,axis) {
         arrObjectArray[indexObj2].setTempX(arrObjectArray[indexObj2].getX() + v2);
 
 
-
+        //This detects if after collision has happened a collision is still happening
+        //Stops objects from phasing through other objects if they collide in y axis
         if (fctnDetectCollisons(indexObj1,indexObj2)){
             fctnConservativeCollision(indexObj1,indexObj2,0,0,"y")
-
         }
 
 

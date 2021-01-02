@@ -10,7 +10,7 @@ var ceiling = new StaticObject("ceiling",0,-50,2000,50,1.5);
 
 function fctnLevel1() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -37,7 +37,7 @@ function fctnLevel1() {
 
 function fctnLevel2_1() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -61,7 +61,7 @@ function fctnLevel2_1() {
 
 function fctnLevel2_2() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -81,7 +81,7 @@ function fctnLevel2_2() {
 
 function fctnLevel3_1() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -105,7 +105,7 @@ function fctnLevel3_1() {
 
 function fctnLevel3_2() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -125,7 +125,7 @@ function fctnLevel3_2() {
 
 function fctnLevel4_1() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -151,7 +151,7 @@ function fctnLevel4_1() {
 
 function fctnLevel4_2() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;
@@ -170,7 +170,7 @@ function fctnLevel4_2() {
 
 function fctnLevel5() {
     //Making sure all constants are the right value
-    fltGravity = 0.05;
+    fltGravity = 0.01;
     intGravityDirection = 1;
     fltAirResistance = 0.995;
     intJumpHeight = 5;

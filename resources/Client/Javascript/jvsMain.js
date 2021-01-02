@@ -6,7 +6,7 @@ var cnvsWidth = (0.9*document.body.clientWidth);
 var cnvsHeight = (cnvsWidth/2.5);
 var ratio = cnvsWidth/2000;
 //Constants
-var fltGravity = 0.05;
+var fltGravity = 0.005;
 var intGravityDirection = 1;
 var fltAirResistance = 0.995;
 var intJumpHeight = 5;
