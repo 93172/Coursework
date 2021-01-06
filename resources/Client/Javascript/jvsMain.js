@@ -44,7 +44,7 @@ window.addEventListener("resize",fctnChangeSize);
 
 //Initialises game, resizes canvas to previously calculated values
 function fctnInitialiseGame() {
-    fctnLevel5();
+    fctnLevel1();
     fctnChangeSize();
     fctnMain();
 }
